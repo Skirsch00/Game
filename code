@@ -1,0 +1,377 @@
+import java.util.*;
+import java.io.*;
+public class twentyFourtyEight
+{
+    public static int score;
+    public static int highscore;
+    public static void main (String [] args)
+    {
+        Scanner scan = new Scanner(System.in);
+        Random ran = new Random();
+        final int NO_NUMBER = 0;
+        boolean valid = false;
+        boolean validInput = false;
+        boolean gameOver = false;
+        boolean playOn = true;
+
+        while (playOn)
+        {
+
+            boolean possibleTurn = false;
+            int[][] grid = new int[4][4];
+            score = 0;
+            addNumber(grid);
+            addNumber(grid);
+            display(grid);
+
+            while (!gameOver)
+            {
+                System.out.println();
+                System.out.println("Enter either W (up), A (left), S (down), or D (right). Enter 'quit' to exit.");
+                String input = scan.nextLine();
+                wipePage();
+                int[][] testGrid = new int[4][4];
+                for (int y = 0; y < grid.length; y++)
+                {
+                    for (int x = 0; x < grid.length; x++)
+                    {
+                        testGrid[y][x] = grid[y][x];
+                    }
+                }
+                changeGrid(input, grid);
+                boolean change = false;
+                for (int y = 0; y < grid.length; y++)
+                {
+                    for (int x = 0; x < grid.length; x++)
+                    {
+                        if (grid[y][x] != testGrid[y][x])
+                            change = true;
+                    }
+                }
+
+                if (change)
+                    addNumber(grid);
+                display(grid);
+
+                possibleTurn = false;
+                for (int y = 0; y < grid.length; y++)
+                {
+                    for (int x = 0; x < grid.length; x++)
+                    {
+                        if (grid[y][x] == NO_NUMBER)
+                            possibleTurn = true;
+                        if (y > 0)
+                            if (grid[y - 1][x] == grid[y][x])
+                                possibleTurn = true;
+                        if (y < 3)
+                            if (grid[y + 1][x] == grid[y][x])
+                                possibleTurn = true;
+                        if (x > 0)
+                            if (grid[y][x - 1] == grid[y][x])
+                                possibleTurn = true;  
+                        if (x < 3)
+                            if (grid[y][x + 1] == grid[y][x])
+                                possibleTurn = true;
+                    }
+                }
+                if (!possibleTurn)
+                    gameOver = true;
+            }
+            System.out.println();
+            System.out.println("Game over! Play again?");
+            String continuePlaying = scan.next();
+            while (!validInput)
+            {
+                if (continuePlaying.equalsIgnoreCase("yes"))
+                {
+                    wipePage();
+                    playOn = true;
+                    gameOver = false;
+                    validInput = true;
+                }
+                else if (continuePlaying.equalsIgnoreCase("no"))
+                {
+                    playOn = false;
+                    validInput = true;
+                    System.out.println("Thanks for playing!");
+                }
+                else
+                {
+                    System.out.println("Please enter 'yes' or 'no'.");
+                    continuePlaying = scan.next();
+                }
+            }
+        }
+    }
+
+    public static void display (int[][] grid)
+    {
+        for (int y = 0; y < grid.length; y++)
+        {
+            for (int x = 0; x < grid.length; x++)
+            {
+                if (y == 0 && x == 0 || y == 1 && x == 0 || y == 2 && x == 0 || y == 3 && x == 0)
+                    System.out.println("---------------------");
+                if (x == 0)
+                    System.out.print("|");
+                switch (grid[y][x])
+                {
+                    case 0:
+                    System.out.print("    |");
+                    break;
+                    case 2:
+                    System.out.print("  2 |");
+                    break;
+                    case 4:
+                    System.out.print("  4 |");
+                    break;
+                    case 8:
+                    System.out.print("  8 |");
+                    break;
+                    case 16:
+                    System.out.print(" 16 |");
+                    break;
+                    case 32:
+                    System.out.print(" 32 |");
+                    break;
+                    case 64:
+                    System.out.print(" 64 |");
+                    break;
+                    case 128:
+                    System.out.print(" 128|");
+                    break;
+                    case 256:
+                    System.out.print(" 256|");
+                    break;
+                    case 512:
+                    System.out.print(" 512|");
+                    break;
+                    case 1024:
+                    System.out.print("1024|");
+                    break;
+                    case 2048:
+                    System.out.print("2048|");
+                    break;
+                    case 4096:
+                    System.out.print("4096|");
+                    break;
+                    case 8192:
+                    System.out.print("8192|");
+                    break;
+                }
+
+                if (y == 1 && x == 3)
+                    System.out.print("     Score: "+score);
+
+                if (y == 2 && x == 3)
+                    System.out.print("     Highscore: "+highscore);
+
+                if (x == 3)
+                    System.out.println();
+
+                if (x == 3 && y == 3)
+                    System.out.println("---------------------");
+            }
+        }
+    }
+
+    public static void wipePage()
+    {
+        System.out.print("\f");
+    }
+
+    public static int[][] changeGrid (String input, int[][] grid)
+    {
+        final int NO_NUMBER = 0;
+        boolean[][] used = new boolean[4][4];
+        if (input.equalsIgnoreCase("quit"))
+        {
+            wipePage();
+            System.out.println("Thanks for playing!");
+            System.exit(0);
+        }
+        else if (input.equalsIgnoreCase("W"))
+        {
+            for (int y = 0; y < grid.length; y++)
+            {
+                for (int x = 0; x < grid.length; x++)
+                {
+                    if (grid[y][x] != NO_NUMBER && y != 0)
+                    {
+                        int check = 1;
+                        label:
+                        while (y-check >= 0)
+                        {
+                            if (grid[y-check][x] == NO_NUMBER)
+                            {
+                                grid[y-check][x] = grid[y-check+1][x];
+                                grid[y-check+1][x] = NO_NUMBER;
+
+                                check++;
+                            }
+                            else
+                            {
+                                if (grid[y-check][x] == grid[y-check+1][x] && used[y-check][x] != true)
+                                {
+                                    grid[y-check][x] = grid[y-check][x]*2;
+                                    score += grid[y-check][x];
+                                    used[y-check][x] = true;
+                                    grid[y-check+1][x] = NO_NUMBER;
+                                }
+                                else
+                                    break label;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if (input.equalsIgnoreCase("A"))
+        {
+            for (int y = 3; y >= 0; y--)
+            {
+                for (int x = 0; x < grid.length; x++)
+                {
+                    if (grid[y][x] != NO_NUMBER && x != 0)
+                    {
+                        int check = 1;
+                        label:
+                        while (x-check >= 0)
+                        {
+                            if (grid[y][x-check] == NO_NUMBER)
+                            {
+                                grid[y][x-check] = grid[y][x-check+1];
+                                grid[y][x-check+1] = NO_NUMBER;
+
+                                check++;
+                            }
+                            else
+                            {
+                                if (grid[y][x-check] == grid[y][x-check+1] && used[y][x-check] != true)
+                                {
+                                    grid[y][x-check] = grid[y][x-check]*2;
+                                    score += grid[y][x-check];
+                                    used[y][x-check] = true;
+                                    grid[y][x-check+1] = NO_NUMBER;
+                                }
+                                else
+                                    break label;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if (input.equalsIgnoreCase("S"))
+        {
+            for (int y = 3; y >= 0; y--)
+            {
+                for (int x = 3; x >= 0; x--)
+                {
+                    if (grid[y][x] != NO_NUMBER && y != 3)
+                    {
+                        int check = 1;
+                        label:
+                        while (y+check <= 3)
+                        {
+                            if (grid[y+check][x] == NO_NUMBER)
+                            {
+                                grid[y+check][x] = grid[y+check-1][x];
+                                grid[y+check-1][x] = NO_NUMBER;
+
+                                check++;
+                            }
+                            else
+                            {
+                                if (grid[y+check][x] == grid[y+check-1][x] && used[y+check][x] != true)
+                                {
+                                    grid[y+check][x] = grid[y+check][x]*2;
+                                    score += grid[y+check][x];
+                                    used[y+check][x] = true;
+                                    grid[y+check-1][x] = NO_NUMBER;
+                                }
+                                else
+                                    break label;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if (input.equalsIgnoreCase("D"))
+        {
+            for (int y = 0; y < grid.length; y++)
+            {
+                for (int x = 3; x >= 0; x--)
+                {
+                    if (grid[y][x] != NO_NUMBER && x != 3)
+                    {
+                        int check = 1;
+                        label:
+                        while (x+check <= 3)
+                        {
+                            if (grid[y][x+check] == NO_NUMBER)
+                            {
+                                grid[y][x+check] = grid[y][x+check-1];
+                                grid[y][x+check-1] = NO_NUMBER;
+
+                                check++;
+                            }
+                            else
+                            {
+                                if (grid[y][x+check] == grid[y][x+check-1] && used[y][x+check] != true)
+                                {
+                                    grid[y][x+check] = grid[y][x+check]*2;
+                                    score += grid[y][x+check];
+                                    used[y][x+check] = true;
+                                    grid[y][x+check-1] = NO_NUMBER;
+                                }
+                                else
+                                    break label;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return grid;
+    }
+
+    public static int[][] addNumber(int[][] grid)
+    {
+        final int TWO_CHANCE = 9;
+        final int TOTAL_CHANCE = 10;
+        final int MAX_NUM_ARRAY = 4;
+        final int NO_NUMBER = 0;
+        boolean valid = false;
+        Random ran = new Random();
+        int ranNum;
+        
+        if (ran.nextInt(TOTAL_CHANCE) < TWO_CHANCE)
+            ranNum = 2;
+        else
+            ranNum = 4;
+
+        int numPlaceX = NO_NUMBER;
+        int numPlaceY = NO_NUMBER;
+        while (!valid)
+        {
+            numPlaceX = ran.nextInt(MAX_NUM_ARRAY);
+            numPlaceY = ran.nextInt(MAX_NUM_ARRAY);
+            if (grid[numPlaceY][numPlaceX] == NO_NUMBER)
+                valid = true;
+
+        }
+
+        for (int y = 0; y < grid.length; y++)
+        {
+            for (int x = 0; x < grid.length; x++)
+            {
+                if (y == numPlaceY && x == numPlaceX)
+                    grid[y][x] = ranNum;
+            }
+        }
+
+        return grid;
+    }
+}
