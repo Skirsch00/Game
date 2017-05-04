@@ -2,18 +2,57 @@ import java.util.*;
 import java.io.*;
 public class twentyFourtyEight
 {
+    //challenge system. get board to a certain state
+    //loot box system with different displays
     public static int score;
     public static int highscore;
     public static void main (String [] args)
     {
         Scanner scan = new Scanner(System.in);
-        Random ran = new Random();
+        boolean stillPlaying = true;
+        boolean choosing;
+        while (stillPlaying)
+        {
+            choosing = true;
+            System.out.println("~=~ 2 0 4 8 ~=~");
+            System.out.println();
+            System.out.println("1 - PLAY");
+            System.out.println("2 - DISPLAYS");
+            System.out.println("3 - LOOT");
+            System.out.println("4 - CHALLENGES");
+            System.out.println("5 - QUIT");
+            System.out.println();
+            System.out.println("Enter the corresponding number for each option.");
+            String input = scan.nextLine();
+            while (choosing)
+            {
+                if (input.equals("1"))
+                {
+                    wipePage();
+                    play();
+                    choosing = false;
+                }
+                else if (input.equals("5"))
+                {
+                    wipePage();
+                    stillPlaying = false;
+                    choosing = false;
+                }
+            }
+        }
+    }
+
+    public static void play ()
+    {
+        Scanner scan = new Scanner(System.in);
+        //Random ran = new Random();
         final int NO_NUMBER = 0;
         boolean valid = false;
         boolean validInput = false;
         boolean gameOver = false;
         boolean playOn = true;
 
+        backToMenu:
         while (playOn)
         {
 
@@ -27,9 +66,12 @@ public class twentyFourtyEight
             while (!gameOver)
             {
                 System.out.println();
-                System.out.println("Enter either W (up), A (left), S (down), or D (right). Enter 'quit' to exit.");
+                System.out.println("Enter either W (up), A (left), S (down), or D (right). Enter 'back' to leave.");
                 String input = scan.nextLine();
                 wipePage();
+                if (input.equalsIgnoreCase("back"))
+                    break backToMenu;
+                
                 int[][] testGrid = new int[4][4];
                 for (int y = 0; y < grid.length; y++)
                 {
@@ -161,10 +203,10 @@ public class twentyFourtyEight
                 }
 
                 if (y == 1 && x == 3)
-                    System.out.print("     Score: "+score);
+                    System.out.print("     Score:");
 
                 if (y == 2 && x == 3)
-                    System.out.print("     Highscore: "+highscore);
+                    System.out.print("     "+score);
 
                 if (x == 3)
                     System.out.println();
@@ -346,7 +388,7 @@ public class twentyFourtyEight
         boolean valid = false;
         Random ran = new Random();
         int ranNum;
-        
+
         if (ran.nextInt(TOTAL_CHANCE) < TWO_CHANCE)
             ranNum = 2;
         else
