@@ -6,11 +6,11 @@ public class twentyFourtyEight
     //loot box system with different displays
     public static int score;
     public static int highscore;
-    public static String user1 = "NEW USER";
-    public static String user2 = "NEW USER";
-    public static String user3 = "NEW USER";
-    public static String user4 = "NEW USER";
-    public static String user5 = "NEW USER";
+    public static String user1 = getUsers(1);
+    public static String user2 = getUsers(2);
+    public static String user3 = getUsers(3);
+    public static String user4 = getUsers(4);
+    public static String user5 = getUsers(5);
     public static String pw = "NEW PASSWORD";
     public static int exp = 0;
     public static String chosenUser = user1;
@@ -402,7 +402,7 @@ public class twentyFourtyEight
         if (score > highscore)
         {
             highscore = score;
-            save(highscore);
+            saveScores(highscore);
         }
         return grid;
     }
@@ -465,6 +465,8 @@ public class twentyFourtyEight
             System.out.println("4 - "+user4);
             System.out.println("5 - "+user5);
             System.out.println();
+            System.out.println("6 - Quit");
+            System.out.println();
             System.out.println("Enter the corresponding number for each option.");
             String userChoice = scan.nextLine();
             if (userChoice.equals("1"))
@@ -522,6 +524,12 @@ public class twentyFourtyEight
                     choosingUser = false;
                 }
             }
+            else if (userChoice.equals("6"))
+            {
+                System.exit(0);
+            }
+            wipePage();
+            saveUsers(user1, user2, user3, user4, user5);
         }
     }
 
@@ -539,7 +547,7 @@ public class twentyFourtyEight
         }
     }
 
-    public static void save (int highscore)
+    public static void saveScores (int highscore)
     {
         File f = new File (chosenUser+"save.txt");
         f.delete();
@@ -553,6 +561,46 @@ public class twentyFourtyEight
         {
 
         }
-        //f.close();
+    }
+
+    public static void saveUsers (String user1, String user2, String user3, String user4, String user5)
+    {
+        File f = new File ("users.txt");
+        f.delete();
+        try
+        {
+            PrintWriter print = new PrintWriter(new File("users.txt"));
+            print.println(user1);
+            print.println(user2);
+            print.println(user3);
+            print.println(user4);
+            print.println(user5);
+            print.close();
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
+
+    public static String getUsers (int amount)
+    {
+        File f = new File ("users.txt");
+        for (int i = 0; i < amount; i++)
+        {
+            try 
+            {
+                Scanner scan = new Scanner(f);
+                if (i == amount-1)
+                    return scan.nextLine();
+                else
+                    scan.nextLine();
+            }
+            catch (Exception e)
+            {
+                return "NEW USER";
+            }
+        }
+        return "NEW USER";
     }
 }
