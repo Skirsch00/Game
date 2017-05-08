@@ -6,38 +6,56 @@ public class twentyFourtyEight
     //loot box system with different displays
     public static int score;
     public static int highscore;
+    public static String user1 = "NEW USER";
+    public static String user2 = "NEW USER";
+    public static String user3 = "NEW USER";
+    public static String user4 = "NEW USER";
+    public static String user5 = "NEW USER";
+    public static String pw = "NEW PASSWORD";
+    public static int exp = 0;
+    public static String chosenUser = user1;
     public static void main (String [] args)
     {
         Scanner scan = new Scanner(System.in);
-        boolean stillPlaying = true;
-        boolean choosing;
-        while (stillPlaying)
+        boolean choosingMenu = true;
+        chooseUser();
+        while (choosingMenu)
         {
-            choosing = true;
+            wipePage();
+            choosingMenu = true;
             System.out.println("~=~ 2 0 4 8 ~=~");
+            System.out.println();
+            System.out.println(chosenUser+" - LEVEL 3");
+            System.out.println("= = = - - - - - - -");
             System.out.println();
             System.out.println("1 - PLAY");
             System.out.println("2 - DISPLAYS");
             System.out.println("3 - LOOT");
             System.out.println("4 - CHALLENGES");
-            System.out.println("5 - QUIT");
+            System.out.println("5 - LEADERBOARD");
+            System.out.println("6 - ACCOUNT");
+            System.out.println("7 - USERS");
+            System.out.println("8 - QUIT");
             System.out.println();
             System.out.println("Enter the corresponding number for each option.");
             String input = scan.nextLine();
-            while (choosing)
+
+            if (input.equals("1"))
             {
-                if (input.equals("1"))
-                {
-                    wipePage();
-                    play();
-                    choosing = false;
-                }
-                else if (input.equals("5"))
-                {
-                    wipePage();
-                    stillPlaying = false;
-                    choosing = false;
-                }
+                highscore = getHighscore();
+                wipePage();
+                play();
+            }
+            else if (input.equals("7"))
+            {
+                wipePage();
+                chooseUser();
+            }
+            else if (input.equals("8"))
+            {
+                wipePage();
+                choosingMenu = false;
+                System.exit(0);
             }
         }
     }
@@ -45,7 +63,6 @@ public class twentyFourtyEight
     public static void play ()
     {
         Scanner scan = new Scanner(System.in);
-        //Random ran = new Random();
         final int NO_NUMBER = 0;
         boolean valid = false;
         boolean validInput = false;
@@ -66,12 +83,13 @@ public class twentyFourtyEight
             while (!gameOver)
             {
                 System.out.println();
+
                 System.out.println("Enter either W (up), A (left), S (down), or D (right). Enter 'back' to leave.");
                 String input = scan.nextLine();
                 wipePage();
                 if (input.equalsIgnoreCase("back"))
                     break backToMenu;
-                
+
                 int[][] testGrid = new int[4][4];
                 for (int y = 0; y < grid.length; y++)
                 {
@@ -152,6 +170,11 @@ public class twentyFourtyEight
         {
             for (int x = 0; x < grid.length; x++)
             {
+                if (y == 0 && x == 0)
+                {
+                    System.out.println("~=~ 2 0 4 8 ~=~");
+                    System.out.println();
+                }
                 if (y == 0 && x == 0 || y == 1 && x == 0 || y == 2 && x == 0 || y == 3 && x == 0)
                     System.out.println("---------------------");
                 if (x == 0)
@@ -203,10 +226,10 @@ public class twentyFourtyEight
                 }
 
                 if (y == 1 && x == 3)
-                    System.out.print("     Score:");
+                    System.out.print("     Score: "+score);
 
                 if (y == 2 && x == 3)
-                    System.out.print("     "+score);
+                    System.out.print("     Highscore: "+highscore);
 
                 if (x == 3)
                     System.out.println();
@@ -376,6 +399,11 @@ public class twentyFourtyEight
                 }
             }
         }
+        if (score > highscore)
+        {
+            highscore = score;
+            save(highscore);
+        }
         return grid;
     }
 
@@ -415,5 +443,116 @@ public class twentyFourtyEight
         }
 
         return grid;
+    }
+
+    public static void chooseUser ()
+    {
+        Scanner scan = new Scanner(System.in);
+        boolean choosingUser = true;
+        boolean validChoice = false;
+        boolean correctPw = false;
+        final int MAX_LENGTH = 7;
+
+        while (choosingUser)
+        {
+            System.out.println("~=~ 2 0 4 8 ~=~");
+            System.out.println();
+            System.out.println("CHOOSE YOUR USER");
+            System.out.println();
+            System.out.println("1 - "+user1);
+            System.out.println("2 - "+user2);
+            System.out.println("3 - "+user3);
+            System.out.println("4 - "+user4);
+            System.out.println("5 - "+user5);
+            System.out.println();
+            System.out.println("Enter the corresponding number for each option.");
+            String userChoice = scan.nextLine();
+            if (userChoice.equals("1"))
+            {
+
+                if (user1.equals("NEW USER"))
+                {
+                    System.out.println("Create name for new user. (Maximum length of 7.)");
+                    while (!validChoice)
+                    {
+                        user1 = scan.nextLine();
+                        if (user1.length() > MAX_LENGTH)
+                            System.out.println("That username is too long. Try again.");
+                        else
+                            validChoice = true;
+                    }
+                    user1 = user1.toUpperCase();
+                    validChoice = false;
+                    System.out.println("Create password for new user. (Maximum length of 7.)");
+                    while (!validChoice)
+                    {
+                        pw = scan.nextLine();
+                        if (pw.length() > MAX_LENGTH)
+                            System.out.println("That password is too long. Try again.");
+                        else
+                        {
+                            validChoice = true;
+                            correctPw = true;
+                        }
+                    }
+                }
+                else
+                {
+                    System.out.println("Enter password. (Enter 'back' to leave.)");
+
+                    label:
+                    while (!correctPw)
+                    {
+                        String enteredPw = scan.nextLine();
+                        if (enteredPw.equals(pw))
+                            correctPw = true;
+                        else if (enteredPw.equalsIgnoreCase("back"))
+                        {
+                            wipePage();
+                            break label;
+                        }
+                        else
+                            System.out.println("Incorrect. (Enter 'back' to leave.)");
+                    }
+                }
+
+                if (correctPw)
+                {
+                    chosenUser = user1;
+                    choosingUser = false;
+                }
+            }
+        }
+    }
+
+    public static int getHighscore ()
+    {
+        File f = new File (chosenUser+"save.txt");
+        try 
+        {
+            Scanner scan = new Scanner(f);
+            return scan.nextInt();
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
+    }
+
+    public static void save (int highscore)
+    {
+        File f = new File (chosenUser+"save.txt");
+        f.delete();
+        try
+        {
+            PrintWriter print = new PrintWriter(new File(chosenUser+"save.txt"));
+            print.println(highscore);
+            print.close();
+        }
+        catch (Exception e)
+        {
+
+        }
+        //f.close();
     }
 }
