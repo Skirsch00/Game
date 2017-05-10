@@ -526,6 +526,7 @@ public class twentyFourtyEight
             }
             else if (userChoice.equals("6"))
             {
+                wipePage();
                 System.exit(0);
             }
             wipePage();
@@ -586,21 +587,22 @@ public class twentyFourtyEight
     public static String getUsers (int amount)
     {
         File f = new File ("users.txt");
-        for (int i = 0; i < amount; i++)
+        try 
         {
-            try 
+            Scanner scan = new Scanner(f);
+            for (int i = 0; i < amount; i++)
             {
-                Scanner scan = new Scanner(f);
                 if (i == amount-1)
                     return scan.nextLine();
                 else
                     scan.nextLine();
             }
-            catch (Exception e)
-            {
-                return "NEW USER";
-            }
         }
+        catch (Exception e)
+        {
+            return "NEW USER";
+        }
+
         return "NEW USER";
     }
 }
