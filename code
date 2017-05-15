@@ -5,6 +5,7 @@ public class twentyFourtyEight
     //challenge system. get board to a certain state
     //loot box system with different displays
     public static int score;
+    public static int testScore = getScores(2);
     public static int highscore;
     public static String user = getUser();
     /*public static String uSer2 = getUsers(2);
@@ -12,8 +13,8 @@ public class twentyFourtyEight
     public static String user4 = getUsers(4);
     public static String user5 = getUsers(5);
     public static String pw = getPw();*/
-    public static int exp = 0;
-    public static int lvl = 1;
+    public static int exp = getScores(3);
+    public static int lvl = 1 + (exp / 10);
     //public static String chosenUser = user1;
     public static void main (String [] args)
     {
@@ -37,7 +38,7 @@ public class twentyFourtyEight
             System.out.println("~=~ 2 0 4 8 ~=~");
             System.out.println();
             System.out.println(user+" - LEVEL "+lvl);
-            System.out.println("= = = - - - - - - -");
+            expDisplay(exp);
             System.out.println();
             System.out.println("1 - PLAY");
             System.out.println("2 - DISPLAYS");
@@ -53,7 +54,9 @@ public class twentyFourtyEight
 
             if (input.equals("1"))
             {
-                highscore = getHighscore();
+                highscore = getScores(0);
+                score = getScores(1);
+                //testScore = score;
                 wipePage();
                 play();
             }
@@ -90,14 +93,14 @@ public class twentyFourtyEight
             boolean possibleTurn = false;
             int[][] grid = new int[4][4];
             grid = getBoard();
-            
+
             //score = 0;
             for (int y = 0; y < grid.length; y++)
             {
                 for (int x = 0; x < grid.length; x++)
                 {
                     if (grid[y][x] != 0)
-                    newBoard = false;
+                        newBoard = false;
                 }
             }
             if (newBoard)
@@ -110,14 +113,20 @@ public class twentyFourtyEight
             while (!gameOver)
             {
                 System.out.println();
-
+                if (testScore > 1000)
+                {
+                    testScore -= 1000;
+                    exp += 1;
+                }
                 System.out.println("Enter either W (up), A (left), S (down), or D (right).");
                 System.out.println("Enter 'back' to leave, or 'reset' to start over.");
                 String input = scan.nextLine();
                 wipePage();
                 if (input.equalsIgnoreCase("back"))
                 {
-                    saveScores(highscore);
+
+                    saveScores(highscore, score, testScore, exp);
+                    lvl = (exp / 10) + 1;
                     saveBoard(grid);
                     break backToMenu;
                 }
@@ -326,6 +335,7 @@ public class twentyFourtyEight
                                 {
                                     grid[y-check][x] = grid[y-check][x]*2;
                                     score += grid[y-check][x];
+                                    testScore += grid[y-check][x];
                                     used[y-check][x] = true;
                                     grid[y-check+1][x] = NO_NUMBER;
                                 }
@@ -362,6 +372,7 @@ public class twentyFourtyEight
                                 {
                                     grid[y][x-check] = grid[y][x-check]*2;
                                     score += grid[y][x-check];
+                                    testScore += grid[y][x-check];
                                     used[y][x-check] = true;
                                     grid[y][x-check+1] = NO_NUMBER;
                                 }
@@ -398,6 +409,7 @@ public class twentyFourtyEight
                                 {
                                     grid[y+check][x] = grid[y+check][x]*2;
                                     score += grid[y+check][x];
+                                    testScore += grid[y+check][x];
                                     used[y+check][x] = true;
                                     grid[y+check-1][x] = NO_NUMBER;
                                 }
@@ -434,6 +446,7 @@ public class twentyFourtyEight
                                 {
                                     grid[y][x+check] = grid[y][x+check]*2;
                                     score += grid[y][x+check];
+                                    testScore += grid[y][x+check];
                                     used[y][x+check] = true;
                                     grid[y][x+check-1] = NO_NUMBER;
                                 }
@@ -630,12 +643,14 @@ public class twentyFourtyEight
     return user;
     }*/
 
-    public static int getHighscore ()
+    public static int getScores (int whichScore)
     {
         File f = new File ("score.txt");
         try 
         {
             Scanner scan = new Scanner(f);
+            for (int i = 0; i < whichScore; i++)
+                scan.nextLine();
             return scan.nextInt();
         }
         catch (Exception e)
@@ -644,7 +659,7 @@ public class twentyFourtyEight
         }
     }
 
-    public static void saveScores (int highscore)
+    public static void saveScores (int highscore, int score, int testScore, int exp)
     {
         File f = new File ("score.txt");
         f.delete();
@@ -652,6 +667,10 @@ public class twentyFourtyEight
         {
             PrintWriter print = new PrintWriter(new File("score.txt"));
             print.println(highscore);
+            print.println(score);
+            print.println(testScore);
+            print.println(exp);
+            //print.println(exp);
             print.close();
         }
         catch (Exception e)
@@ -793,6 +812,24 @@ public class twentyFourtyEight
         {
             return "NEW USER";
         }
+    }
+
+    public static void expDisplay (int exp)
+    {
+        for (int i = 0; i < exp%10; i++)
+        {
+            System.out.print("= ");
+        }
+        if (exp%10 == 0)
+        {
+            for (int i = 0; i < 10; i++)
+            System.out.print("= ");
+        }
+        for (int i = exp%10; i < 10; i++)
+        {
+            System.out.print("- ");
+        }
+        System.out.println();
     }
     /*public static String getUsers (int amount)
     {
