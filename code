@@ -14,7 +14,7 @@ public class twentyFourtyEight
     public static String user5 = getUsers(5);
     public static String pw = getPw();*/
     public static int exp = getScores(3);
-    public static int lvl = 1 + (exp / 10);
+    public static int lvl = getScores(4);
     //public static String chosenUser = user1;
     public static void main (String [] args)
     {
@@ -113,10 +113,15 @@ public class twentyFourtyEight
             while (!gameOver)
             {
                 System.out.println();
-                if (testScore > 1000)
+                if (testScore > 500)
                 {
-                    testScore -= 1000;
+                    testScore -= 500;
                     exp += 1;
+                    if (exp == 11)
+                    {
+                        exp = 0;
+                        lvl++;
+                    }
                 }
                 System.out.println("Enter either W (up), A (left), S (down), or D (right).");
                 System.out.println("Enter 'back' to leave, or 'reset' to start over.");
@@ -125,8 +130,8 @@ public class twentyFourtyEight
                 if (input.equalsIgnoreCase("back"))
                 {
 
-                    saveScores(highscore, score, testScore, exp);
-                    lvl = (exp / 10) + 1;
+                    saveScores(highscore, score, testScore, exp, lvl);
+                    //lvl = (exp / 10) + 1;
                     saveBoard(grid);
                     break backToMenu;
                 }
@@ -655,11 +660,13 @@ public class twentyFourtyEight
         }
         catch (Exception e)
         {
+            if (whichScore == 4)
+            return 1;
             return 0;
         }
     }
 
-    public static void saveScores (int highscore, int score, int testScore, int exp)
+    public static void saveScores (int highscore, int score, int testScore, int exp, int lvl)
     {
         File f = new File ("score.txt");
         f.delete();
@@ -670,6 +677,7 @@ public class twentyFourtyEight
             print.println(score);
             print.println(testScore);
             print.println(exp);
+            print.println(lvl);
             //print.println(exp);
             print.close();
         }
@@ -816,16 +824,16 @@ public class twentyFourtyEight
 
     public static void expDisplay (int exp)
     {
-        for (int i = 0; i < exp%10; i++)
+        for (int i = 0; i < exp; i++)
         {
             System.out.print("= ");
         }
-        if (exp%10 == 0)
+        /*if (exp%10 == 0)
         {
             for (int i = 0; i < 10; i++)
             System.out.print("= ");
-        }
-        for (int i = exp%10; i < 10; i++)
+        }*/
+        for (int i = exp; i < 10; i++)
         {
             System.out.print("- ");
         }
