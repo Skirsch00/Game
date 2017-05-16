@@ -65,6 +65,40 @@ public class twentyFourtyEight
             wipePage();
             chooseUser();
             }*/
+            else if (input.equals("5"))
+            {
+                boolean profileChoosing = true;
+                int expToNextLvl = 500*exp+testScore;
+                final int LEVEL_EXP = 5000;
+                int totalExp = (lvl-1)*LEVEL_EXP+expToNextLvl;
+                while (profileChoosing)
+                {
+                    wipePage();
+                    System.out.println("~=~ 2 0 4 8 ~=~");
+                    System.out.println();
+                    System.out.println("USERNAME: " + user);
+                    System.out.println("LEVEL: " + lvl);
+                    System.out.println("EXPERIENCE: " + expToNextLvl + " / " + LEVEL_EXP);
+                    System.out.println("TOTAL EXPERIENCE: " + totalExp);
+                    System.out.println();
+                    System.out.println("1 - CHANGE USERNAME");
+                    System.out.println("2 - BACK");
+                    System.out.println();
+                    System.out.println("Enter the corresponding number for each option.");
+                    String profileInput = scan.nextLine();
+                    if (profileInput.equals("1"))
+                    {
+                        System.out.println("Enter new username.");
+                        user = scan.nextLine();
+                        user = user.toUpperCase();
+                        saveUser(user);
+                    }
+                    else if (profileInput.equals("2"))
+                    {
+                        profileChoosing = false;
+                    }
+                }
+            }
             else if (input.equals("6"))
             {
                 wipePage();
@@ -661,7 +695,7 @@ public class twentyFourtyEight
         catch (Exception e)
         {
             if (whichScore == 4)
-            return 1;
+                return 1;
             return 0;
         }
     }
@@ -830,8 +864,8 @@ public class twentyFourtyEight
         }
         /*if (exp%10 == 0)
         {
-            for (int i = 0; i < 10; i++)
-            System.out.print("= ");
+        for (int i = 0; i < 10; i++)
+        System.out.print("= ");
         }*/
         for (int i = exp; i < 10; i++)
         {
