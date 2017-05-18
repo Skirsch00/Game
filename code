@@ -69,7 +69,7 @@ public class twentyFourtyEight
             {
                 boolean profileChoosing = true;
                 int expToNextLvl = 500*exp+testScore;
-                final int LEVEL_EXP = 5000;
+                final int LEVEL_EXP = 5500;
                 int totalExp = (lvl-1)*LEVEL_EXP+expToNextLvl;
                 while (profileChoosing)
                 {
@@ -247,7 +247,16 @@ public class twentyFourtyEight
                 {
                     playOn = false;
                     validInput = true;
-                    System.out.println("Thanks for playing!");
+                    for (int y = 0; y < grid.length; y++)
+                    {
+                        for (int x = 0; x < grid.length; x++)
+                        {
+                            grid[y][x] = 0;
+                        }
+                    }
+                    saveBoard(grid);
+                    score = 0;
+                    saveScores(highscore, score, testScore, exp, lvl);
                 }
                 else
                 {
