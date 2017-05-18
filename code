@@ -15,6 +15,7 @@ public class twentyFourtyEight
     public static String pw = getPw();*/
     public static int exp = getScores(3);
     public static int lvl = getScores(4);
+    public static int loot = 0;
     //public static String chosenUser = user1;
     public static void main (String [] args)
     {
@@ -60,13 +61,38 @@ public class twentyFourtyEight
                 wipePage();
                 play();
             }
-            /*else if (input.equals("7"))
+            else if (input.equals("3"))
             {
-            wipePage();
-            chooseUser();
-            }*/
+                boolean lootScreen = true;
+                while (lootScreen)
+                {
+                    wipePage();
+                    System.out.println("~=~ 2 0 4 8 ~=~");
+                    System.out.println();
+                    System.out.println("   ___________");
+                    System.out.println("  /   ___    /|");
+                    System.out.println(" /   /__/   / /");
+                    System.out.println("/__________/ /");
+                    System.out.println("|__________|/|");
+                    System.out.println(" |        |  |");
+                    System.out.println(" |  ----  |  |_");
+                    System.out.println(" |  LOOT  |  /|");
+                    System.out.println(" |  ----  | / /");
+                    System.out.println("/|________|/ /");
+                    System.out.println("|__________|/");
+                    System.out.println();
+                    System.out.println("You have "+loot+" loot boxes!");
+                    System.out.println("1 - OPEN");
+                    System.out.println("2 - BACK");
+                    System.out.println();
+                    System.out.println("Enter the corresponding number for each option.");
+                    if (scan.next().equals("2"))
+                    lootScreen = false;
+                }
+            }
             else if (input.equals("5"))
             {
+                highscore = getScores(0);
                 boolean profileChoosing = true;
                 int expToNextLvl = 500*exp+testScore;
                 final int LEVEL_EXP = 5500;
@@ -80,6 +106,7 @@ public class twentyFourtyEight
                     System.out.println("LEVEL: " + lvl);
                     System.out.println("EXPERIENCE: " + expToNextLvl + " / " + LEVEL_EXP);
                     System.out.println("TOTAL EXPERIENCE: " + totalExp);
+                    System.out.println("HIGHSCORE: " + highscore);
                     System.out.println();
                     System.out.println("1 - CHANGE USERNAME");
                     System.out.println("2 - BACK");
@@ -155,6 +182,29 @@ public class twentyFourtyEight
                     {
                         exp = 0;
                         lvl++;
+                        loot++;
+                        boolean lvlUpScreen = true;
+                        while (lvlUpScreen)
+                        {
+                            wipePage();
+                            System.out.println("~=~ 2 0 4 8 ~=~");
+                            System.out.println();
+                            System.out.println(" ~,  _      ____   _    _   ____   _        _   _   ____   ,~");
+                            System.out.println("{ ' | |    | ___| | |  | | |  __| | |      | | | | |  _ \\  ' }");
+                            System.out.println(" \\  | |    | |__  | |  | | | |__  | |      | | | | | |_| |  /");
+                            System.out.println("  } | |    |  __| | \\  / | |  __| | |      | | | | |  __/  {");
+                            System.out.println(" /  | |__  | |__   \\ \\/ /  | |__  | |__    | |_| | | |      \\");
+                            System.out.println("{ , |____| |____|   \\__/   |____| |____|   |_____| |_|     , }");
+                            System.out.println(" ~'                                                        '~");
+                            System.out.println();
+                            System.out.println("You are now level "+lvl+"!");
+                            System.out.println("+1 LOOT BOX");
+                            System.out.println("1 - CONTINUE");
+                            System.out.println();
+                            System.out.println("Enter the corresponding number for each option.");
+                            if (scan.next().equals("1"))
+                                lvlUpScreen = false;
+                        }
                     }
                 }
                 System.out.println("Enter either W (up), A (left), S (down), or D (right).");
@@ -163,7 +213,6 @@ public class twentyFourtyEight
                 wipePage();
                 if (input.equalsIgnoreCase("back"))
                 {
-
                     saveScores(highscore, score, testScore, exp, lvl);
                     //lvl = (exp / 10) + 1;
                     saveBoard(grid);
@@ -182,7 +231,6 @@ public class twentyFourtyEight
                     addNumber(grid);
                     score = 0;
                 }
-
                 int[][] testGrid = new int[4][4];
                 for (int y = 0; y < grid.length; y++)
                 {
@@ -201,11 +249,9 @@ public class twentyFourtyEight
                             change = true;
                     }
                 }
-
                 if (change)
                     addNumber(grid);
                 display(grid);
-
                 possibleTurn = false;
                 for (int y = 0; y < grid.length; y++)
                 {
