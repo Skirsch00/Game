@@ -360,7 +360,7 @@ public class twentyFourtyEight
                         {
                             while (openLoot)
                             {
-
+                                lootDisplay(empty);
                                 System.out.println("Enter 'back' to return to your loot boxes.");
                                 if (scan.nextLine().equalsIgnoreCase("back"))
                                     openLoot = false;
