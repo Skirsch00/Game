@@ -13,7 +13,7 @@ public class twentyFourtyEight
     public static int highestTile = getScores(5);
     public static int currentDisplay;
     public static int unluckyPoints = getScores(6);
-    public static int[] displays = getDisplays();// = new int[9]; //0 is locked, 1 is unlocked
+    public static int[] displays = getDisplays(); //0 is locked, 1 is unlocked
     public static boolean newTile = false;
     public static void main (String [] args)
     {
@@ -31,11 +31,30 @@ public class twentyFourtyEight
         {
             System.out.println("~=~ 2 0 4 8 ~=~");
             System.out.println();
-            System.out.println("Welcome to 2048! Enter your username! (You may change it later.)");
+            System.out.println("Welcome to Sean Kirschner's 2048!");
+            System.out.println("Enter your username! (You may change it later)");
             String madeUser = scan.nextLine();
             madeUser = madeUser.toUpperCase();
             saveUser(madeUser);
             user = getUser();
+            boolean tutorial = true;
+            while (tutorial)
+            {
+                wipePage();
+                System.out.println("~=~ 2 0 4 8 ~=~");
+                System.out.println();
+                System.out.println("In 2048, you are presented with a 4x4 grid filled with numbers.");
+                System.out.println("You can choose to move up, down, left, or right,");
+                System.out.println("and all the numbers will move in that direction.");
+                System.out.println("If two of the same numbers meet, they become one number, doubled in value.");
+                System.out.println("Once you can no longer move the numbers, it's game over.");
+                System.out.println("All progess is saved, even if you exit BlueJ.");
+                System.out.println("Try to get as large a number as possible! Have fun!");
+                System.out.println();
+                System.out.println("Enter 'continue' to play!");
+                if (scan.nextLine().equalsIgnoreCase("continue"))
+                    tutorial = false;
+            }
         }
         while (choosingMenu)
         {
@@ -119,7 +138,7 @@ public class twentyFourtyEight
                     System.out.println();
                     System.out.println("-= RARE =-");
                     System.out.print("7 - ZIG ZAG");
-                    if (currentDisplay == 7 && displays[6] == 1) //findthis
+                    if (currentDisplay == 7 && displays[6] == 1) 
                         System.out.print(" - Active");
                     else if (displays[6] == 0)
                         System.out.print(" - Locked");
@@ -183,7 +202,7 @@ public class twentyFourtyEight
             {
                 boolean lootScreen = true;
                 String[] common = {"STANDARD", "DOUBLE", "SPIKE", "WAVE", "PILLAR", "POINT"};
-                String[] rare = {"ZIG ZAG", "BUBBLE", "TOWER", "ARROW"};       //findthis
+                String[] rare = {"ZIG ZAG", "BUBBLE", "TOWER", "ARROW"};       
                 String[] legendary = {"HURDLE", "POP"};
                 while (lootScreen)
                 {
@@ -298,7 +317,7 @@ public class twentyFourtyEight
                                     if (unluckyPoints == 1)
                                     {
                                         System.out.println("Due to the limited amount of loot, and lack of currency system,");
-                                        System.out.println("the best I can give you are these points.");
+                                        System.out.println("the best I can give you are these useless points.");
                                         System.out.println("Have fun stacking them up! You'll be getting a lot of them.");
                                     }
                                 }
@@ -319,7 +338,7 @@ public class twentyFourtyEight
                                     if (unluckyPoints == 1)
                                     {
                                         System.out.println("Due to the limited amount of loot, and lack of currency system,");
-                                        System.out.println("the best I can give you are these points.");
+                                        System.out.println("the best I can give you are these useless points.");
                                         System.out.println("Have fun stacking them up! You'll be getting a lot of them.");
                                     }
                                 }
@@ -340,7 +359,7 @@ public class twentyFourtyEight
                                     if (unluckyPoints == 1)
                                     {
                                         System.out.println("Due to the limited amount of loot, and lack of currency system,");
-                                        System.out.println("the best I can give you are these points.");
+                                        System.out.println("the best I can give you are these useless points.");
                                         System.out.println("Have fun stacking them up! You'll be getting a lot of them.");
                                     }
                                 }
@@ -473,8 +492,6 @@ public class twentyFourtyEight
             boolean possibleTurn = false;
             int[][] grid = new int[4][4];
             grid = getBoard();
-
-            //score = 0;
             for (int y = 0; y < grid.length; y++)
             {
                 for (int x = 0; x < grid.length; x++)
@@ -816,13 +833,7 @@ public class twentyFourtyEight
     {
         final int NO_NUMBER = 0;
         boolean[][] used = new boolean[4][4];
-        /*if (input.equalsIgnoreCase("quit"))
-        {
-        wipePage();
-        System.out.println("Thanks for playing!");
-        System.exit(0);
-        }
-        else*/ if (input.equalsIgnoreCase("W"))
+        if (input.equalsIgnoreCase("W"))
         {
             for (int y = 0; y < grid.length; y++)
             {
@@ -1044,7 +1055,7 @@ public class twentyFourtyEight
             chosenDisplay[1] = "|";
             break;
             case 7:
-            chosenDisplay[0] = "\\----\\----\\----\\----\\"; //findthis
+            chosenDisplay[0] = "\\----\\----\\----\\----\\"; 
             chosenDisplay[1] = "/";
             break;
             case 8:
@@ -1196,10 +1207,6 @@ public class twentyFourtyEight
             PrintWriter print = new PrintWriter(new File("loot.txt"));
             print.println(loot);
             print.println(currentDisplay);
-            /*for (int i = 0; i < displays.length; i++)
-            {
-            print.print(displays[i]+" ");
-            }*/
             print.close();
         }
         catch (Exception e)
@@ -1215,14 +1222,6 @@ public class twentyFourtyEight
             Scanner scan = new Scanner(f);
             for (int i = 0; i < whichLoot; i++)
             {
-                /*if (i == 2)
-                {
-                for (int j = 0; j < displays.length; j++)
-                {
-                displays[j] = scan.nextInt();
-                }
-                }
-                else*/
                 scan.nextInt();
             }
             return scan.nextInt();
