@@ -264,7 +264,7 @@ public class twentyFourtyEight
                         System.out.println("~=~ 2 0 4 8 ~=~");
                         System.out.println();
                         System.out.println("  ____   ____");
-                        System.out.println(" /___/__/___/|");
+                        System.out.println(" /___/|_/___/|");
                         System.out.println("/___// /___/|/");
                         System.out.println("|___|__|___|/");
                         System.out.println(" |  ____  | |");
@@ -287,87 +287,87 @@ public class twentyFourtyEight
                         int lege = ran.nextInt(LEGE_AMOUNT);
                         int openedLoot = ran.nextInt(TOTAL_CHANCE);
                         boolean openLoot = true;
-                        while (openLoot)
+
+                        boolean empty = false;
+                        if (openedLoot < LEGENDARY)
                         {
-                            wipePage();
-                            System.out.println("~=~ 2 0 4 8 ~=~");
-                            System.out.println("     $");
-                            System.out.println("  _$_     $__");
-                            System.out.println(" /__/_$__/__/|");
-                            System.out.println("/__//$  /__/|/");
-                            System.out.println("|__|___$|__|/");
-                            System.out.println(" |  ____  | |");
-                            System.out.println(" |  LOOT  | /|");
-                            System.out.println("/|________|/|/");
-                            System.out.println("|____||____|/");
-                            System.out.println();
-                            if (openedLoot < LEGENDARY)
+                            if (displays[COM_AMOUNT+RAR_AMOUNT+lege] == 0)
                             {
-                                if (displays[COM_AMOUNT+RAR_AMOUNT+lege] == 0)
-                                {
-                                    System.out.println("LEGENDARY!!!");
-                                    System.out.println("You unlocked "+legendary[lege]+"!");
-                                    displays[COM_AMOUNT+RAR_AMOUNT+lege] = 1;
-                                }
-                                else
-                                {
-                                    System.out.println("The loot box was empty!");
-                                    System.out.println("+1 unlucky point!");
-                                    unluckyPoints++;
-                                    if (unluckyPoints == 1)
-                                    {
-                                        System.out.println("Due to the limited amount of loot, and lack of currency system,");
-                                        System.out.println("the best I can give you are these useless points.");
-                                        System.out.println("Have fun stacking them up! You'll be getting a lot of them.");
-                                    }
-                                }
-                            }
-                            else if (openedLoot < RARE)
-                            {
-                                if (displays[COM_AMOUNT+rar] == 0)
-                                {
-                                    System.out.println("RARE!!");
-                                    System.out.println("You unlocked "+rare[rar]+"!");
-                                    displays[COM_AMOUNT+rar] = 1;
-                                }
-                                else
-                                {
-                                    System.out.println("The loot box was empty!");
-                                    System.out.println("+1 unlucky point!");
-                                    unluckyPoints++;
-                                    if (unluckyPoints == 1)
-                                    {
-                                        System.out.println("Due to the limited amount of loot, and lack of currency system,");
-                                        System.out.println("the best I can give you are these useless points.");
-                                        System.out.println("Have fun stacking them up! You'll be getting a lot of them.");
-                                    }
-                                }
+                                lootDisplay(empty);
+                                System.out.println("LEGENDARY!!!");
+                                System.out.println("You unlocked "+legendary[lege]+"!");
+                                displays[COM_AMOUNT+RAR_AMOUNT+lege] = 1;
                             }
                             else
                             {
-                                if (displays[com] == 0)
-                                {
-                                    System.out.println("COMMON!");
-                                    System.out.println("You unlocked "+common[com]+"!");
-                                    displays[com] = 1;
-                                }
-                                else
-                                {
-                                    System.out.println("The loot box was empty!");
-                                    System.out.println("+1 unlucky point!");
-                                    unluckyPoints++;
-                                    if (unluckyPoints == 1)
-                                    {
-                                        System.out.println("Due to the limited amount of loot, and lack of currency system,");
-                                        System.out.println("the best I can give you are these useless points.");
-                                        System.out.println("Have fun stacking them up! You'll be getting a lot of them.");
-                                    }
-                                }
+                                empty = true;
+                                lootDisplay(empty);
+                                System.out.println("The loot box was empty!");
+                                System.out.println("+1 unlucky point!");
+                                unluckyPoints++;
                             }
-                            System.out.println("Enter 'back' to return to your loot boxes.");
-                            if (scan.nextLine().equalsIgnoreCase("back"))
-                                openLoot = false;
                         }
+                        else if (openedLoot < RARE)
+                        {
+                            if (displays[COM_AMOUNT+rar] == 0)
+                            {
+                                lootDisplay(empty);
+                                System.out.println("RARE!!");
+                                System.out.println("You unlocked "+rare[rar]+"!");
+                                displays[COM_AMOUNT+rar] = 1;
+                            }
+                            else
+                            {
+                                
+                                empty = true;
+                                lootDisplay(empty);
+                                System.out.println("The loot box was empty!");
+                                System.out.println("+1 unlucky point!");
+                                unluckyPoints++;
+                            }
+                        }
+                        else
+                        {
+                            if (displays[com] == 0)
+                            {
+                                lootDisplay(empty);
+                                System.out.println("COMMON!");
+                                System.out.println("You unlocked "+common[com]+"!");
+                                displays[com] = 1;
+                            }
+                            else
+                            {
+                                
+                                empty = true;
+                                lootDisplay(empty);
+                                System.out.println("The loot box was empty!");
+                                System.out.println("+1 unlucky point!");
+                                unluckyPoints++;
+                            }
+                        }
+                        
+                        if (empty && unluckyPoints == 1)
+                        {
+                            System.out.println("Due to the limited amount of loot, and lack of currency system,");
+                            System.out.println("the best I can give you are these useless points.");
+                            System.out.println("Have fun stacking them up! You'll be getting a lot of them.");
+                        }
+
+                        System.out.println("Enter 'back' to return to your loot boxes.");
+                        if (scan.nextLine().equalsIgnoreCase("back"))
+                            openLoot = false;
+                        else
+                        {
+                            while (openLoot)
+                            {
+
+                                System.out.println("Enter 'back' to return to your loot boxes.");
+                                if (scan.nextLine().equalsIgnoreCase("back"))
+                                    openLoot = false;
+                            }
+                        }
+
+                        //}
                         wipePage();
                     }
                     else if (lootChoice.equals("2"))
@@ -473,6 +473,40 @@ public class twentyFourtyEight
                 choosingMenu = false;
                 System.exit(0);
             }
+        }
+    }
+
+    public static void lootDisplay (boolean empty)
+    {
+        if (empty)
+        {
+            wipePage();
+            System.out.println("~=~ 2 0 4 8 ~=~");
+            System.out.println();
+            System.out.println("  ___     ___");
+            System.out.println(" /__/|___/__/|");
+            System.out.println("/__//   /__/|/");
+            System.out.println("|__|____|__|/");
+            System.out.println(" |  ____  | |");
+            System.out.println(" |  LOOT  | /|");
+            System.out.println("/|________|/|/");
+            System.out.println("|____||____|/");
+            System.out.println();
+        }
+        else
+        {
+            wipePage();
+            System.out.println("~=~ 2 0 4 8 ~=~");
+            System.out.println("     $");
+            System.out.println("  _$_     $__");
+            System.out.println(" /__/|$__/__/|");
+            System.out.println("/__//$  /__/|/");
+            System.out.println("|__|___$|__|/");
+            System.out.println(" |  ____  | |");
+            System.out.println(" |  LOOT  | /|");
+            System.out.println("/|________|/|/");
+            System.out.println("|____||____|/");
+            System.out.println();
         }
     }
 
