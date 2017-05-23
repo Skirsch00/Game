@@ -2,26 +2,31 @@ import java.util.*;
 import java.io.*;
 public class twentyFourtyEight
 {
-    //challenge system. get board to a certain state
-    //loot box system with different displays
     public static int score;
     public static int testScore = getScores(2);
     public static int highscore;
     public static String user = getUser();
-    /*public static String uSer2 = getUsers(2);
-    public static String user3 = getUsers(3);
-    public static String user4 = getUsers(4);
-    public static String user5 = getUsers(5);
-    public static String pw = getPw();*/
     public static int exp = getScores(3);
     public static int lvl = getScores(4);
-    public static int loot = 0;
-    //public static String chosenUser = user1;
+    public static int loot = getLoot(0);
+    public static String[] chosenDisplay = new String[2];
+    public static int highestTile = getScores(5);
+    public static int currentDisplay;
+    public static int unluckyPoints = getScores(6);
+    public static int[] displays = getDisplays();// = new int[9]; //0 is locked, 1 is unlocked
+    public static boolean newTile = false;
     public static void main (String [] args)
     {
+        saveDisplays(displays);
+        if (getLoot(1) == 0)
+            currentDisplay = 1;
+        else
+            currentDisplay = getLoot(1);
+        if (displays[0] == 0)
+            displays[0] = 1;
+        displayGraphics(currentDisplay);
         Scanner scan = new Scanner(System.in);
         boolean choosingMenu = true;
-        //chooseUser();
         if (user.equals("NEW USER"))
         {
             System.out.println("~=~ 2 0 4 8 ~=~");
@@ -39,15 +44,21 @@ public class twentyFourtyEight
             System.out.println("~=~ 2 0 4 8 ~=~");
             System.out.println();
             System.out.println(user+" - LEVEL "+lvl);
-            expDisplay(exp);
+            for (int i = 0; i < exp; i++)
+            {
+                System.out.print("= ");
+            }
+            for (int i = exp; i < 10; i++)
+            {
+                System.out.print("- ");
+            }
+            System.out.println();
             System.out.println();
             System.out.println("1 - PLAY");
             System.out.println("2 - DISPLAYS");
             System.out.println("3 - LOOT");
             System.out.println("4 - CHALLENGES");
-            //System.out.println("5 - LEADERBOARD");
             System.out.println("5 - PROFILE");
-            //System.out.println("7 - USERS");
             System.out.println("6 - QUIT");
             System.out.println();
             System.out.println("Enter the corresponding number for each option.");
@@ -57,38 +68,344 @@ public class twentyFourtyEight
             {
                 highscore = getScores(0);
                 score = getScores(1);
-                //testScore = score;
                 wipePage();
                 play();
+            }
+            else if (input.equals("2"))
+            {
+                boolean displayScreen = true;
+
+                while (displayScreen)
+                {
+                    wipePage();
+                    System.out.println("~=~ 2 0 4 8 ~=~");
+                    System.out.println();
+                    System.out.println("Choose your display.");
+                    System.out.println();
+                    System.out.println("- COMMON -");
+                    System.out.print("1 - STANDARD");
+                    if (currentDisplay == 1)
+                        System.out.print(" - Active");
+                    System.out.println();
+                    System.out.print("2 - DOUBLE");
+                    if (currentDisplay == 2 && displays[1] == 1)
+                        System.out.print(" - Active");
+                    else if (displays[1] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.print("3 - SPIKE");
+                    if (currentDisplay == 3 && displays[2] == 1)
+                        System.out.print(" - Active");
+                    else if (displays[2] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.print("4 - WAVE");
+                    if (currentDisplay == 4 && displays[3] == 1)
+                        System.out.print(" - Active");
+                    else if (displays[3] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.print("5 - PILLAR");
+                    if (currentDisplay == 5 && displays[4] == 1)
+                        System.out.print(" - Active");
+                    else  if (displays[4] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.print("6 - POINT");
+                    if (currentDisplay == 6 && displays[5] == 1)
+                        System.out.print(" - Active");
+                    else if (displays[5] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.println("-= RARE =-");
+                    System.out.print("7 - ZIG ZAG");
+                    if (currentDisplay == 7 && displays[6] == 1) //findthis
+                        System.out.print(" - Active");
+                    else if (displays[6] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.print("8 - BUBBLE");
+                    if (currentDisplay == 8 && displays[7] == 1)
+                        System.out.print(" - Active");
+                    else if (displays[7] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.print("9 - TOWER");
+                    if (currentDisplay == 9 && displays[8] == 1)
+                        System.out.print(" - Active");
+                    else if (displays[8] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.print("10 - ARROW");
+                    if (currentDisplay == 10 && displays[9] == 1)
+                        System.out.print(" - Active");
+                    else if (displays[9] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.println("-=- LEGENDARY -=-");
+                    System.out.print("11 - HURDLE");
+                    if (currentDisplay == 11 && displays[10] == 1)
+                        System.out.print(" - Active");
+                    else if (displays[10] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.print("12 - POP");
+                    if (currentDisplay == 12 && displays[11] == 1)
+                        System.out.print(" - Active");
+                    else if (displays[11] == 0)
+                        System.out.print(" - Locked");
+                    System.out.println();
+                    System.out.println();
+                    System.out.println("13 - BACK");
+                    System.out.println();
+                    System.out.println("Enter the corresponding number for each option.");
+                    String displayChoice = scan.nextLine();
+                    if (displayChoice.equals("13"))
+                        displayScreen = false;
+                    else
+                    {
+                        try 
+                        {
+                            int choice = Integer.parseInt(displayChoice);
+                            if (displays[choice-1] == 1)
+                            {
+                                displayGraphics(choice);
+                                currentDisplay = choice;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                        }
+                    }
+                }
             }
             else if (input.equals("3"))
             {
                 boolean lootScreen = true;
+                String[] common = {"STANDARD", "DOUBLE", "SPIKE", "WAVE", "PILLAR", "POINT"};
+                String[] rare = {"ZIG ZAG", "BUBBLE", "TOWER", "ARROW"};       //findthis
+                String[] legendary = {"HURDLE", "POP"};
                 while (lootScreen)
                 {
                     wipePage();
                     System.out.println("~=~ 2 0 4 8 ~=~");
                     System.out.println();
-                    System.out.println("   ___________");
-                    System.out.println("  /   ___    /|");
-                    System.out.println(" /   /__/   / /");
-                    System.out.println("/__________/ /");
-                    System.out.println("|__________|/|");
-                    System.out.println(" |        |  |");
-                    System.out.println(" |  ----  |  |_");
-                    System.out.println(" |  LOOT  |  /|");
-                    System.out.println(" |  ----  | / /");
-                    System.out.println("/|________|/ /");
-                    System.out.println("|__________|/");
+                    System.out.println("  ___________");
+                    System.out.println(" /__________/|");
+                    System.out.println("/__________/|/");
+                    System.out.println("|____||____|/");
+                    System.out.println(" |  ____  | |");
+                    System.out.println(" |  LOOT  | /|");
+                    System.out.println("/|________|/|/");
+                    System.out.println("|____||____|/");
                     System.out.println();
-                    System.out.println("You have "+loot+" loot boxes!");
+                    if (loot == 0)
+                        System.out.println("You have no loot boxes!");
+                    else if (loot == 1)
+                        System.out.println("You have "+loot+" loot box!");
+                    else 
+                        System.out.println("You have "+loot+" loot boxes!");
                     System.out.println("1 - OPEN");
                     System.out.println("2 - BACK");
                     System.out.println();
                     System.out.println("Enter the corresponding number for each option.");
-                    if (scan.next().equals("2"))
-                    lootScreen = false;
+                    String lootChoice = scan.nextLine();
+                    if (lootChoice.equals("1") && loot > 0)
+                    {
+                        loot--;
+                        wipePage();
+                        System.out.println("~=~ 2 0 4 8 ~=~");
+                        System.out.println();
+                        System.out.println("  ___________");
+                        System.out.println(" /__________/|");
+                        System.out.println("/__________/|/");
+                        System.out.println("|____||____|/");
+                        System.out.println(" |  ____  | |");
+                        System.out.println(" |  LOOT  | /|");
+                        System.out.println("/|________|/|/");
+                        System.out.println("|____||____|/");
+                        System.out.println();
+                        System.out.println("Enter any key to start opening the loot box!");
+                        scan.nextLine();
+                        wipePage();
+                        System.out.println("~=~ 2 0 4 8 ~=~");
+                        System.out.println();
+                        System.out.println("  _____ _____");
+                        System.out.println(" /____//____/|");
+                        System.out.println("/____//____/|/");
+                        System.out.println("|____||____|/");
+                        System.out.println(" |  ____  | |");
+                        System.out.println(" |  LOOT  | /|");
+                        System.out.println("/|________|/|/");
+                        System.out.println("|____||____|/");
+                        System.out.println();
+                        System.out.println("Enter any key to continue opening the loot box!");
+                        scan.nextLine();
+                        wipePage();
+                        System.out.println("~=~ 2 0 4 8 ~=~");
+                        System.out.println();
+                        System.out.println("  ____   ____");
+                        System.out.println(" /___/__/___/|");
+                        System.out.println("/___// /___/|/");
+                        System.out.println("|___|__|___|/");
+                        System.out.println(" |  ____  | |");
+                        System.out.println(" |  LOOT  | /|");
+                        System.out.println("/|________|/|/");
+                        System.out.println("|____||____|/");
+                        System.out.println();
+                        System.out.println("Enter any key to finish opening the loot box!");
+                        scan.nextLine();
+
+                        Random ran = new Random();
+                        final int TOTAL_CHANCE = 100;
+                        final int LEGENDARY = 10;
+                        final int LEGE_AMOUNT = 2;
+                        final int RARE = 35;
+                        final int RAR_AMOUNT = 4;
+                        final int COM_AMOUNT = 6;
+                        int com = ran.nextInt(COM_AMOUNT);
+                        int rar = ran.nextInt(RAR_AMOUNT);
+                        int lege = ran.nextInt(LEGE_AMOUNT);
+                        int openedLoot = ran.nextInt(TOTAL_CHANCE);
+                        boolean openLoot = true;
+                        while (openLoot)
+                        {
+                            wipePage();
+                            System.out.println("~=~ 2 0 4 8 ~=~");
+                            System.out.println("     $");
+                            System.out.println("  _$_     $__");
+                            System.out.println(" /__/_$__/__/|");
+                            System.out.println("/__//$  /__/|/");
+                            System.out.println("|__|___$|__|/");
+                            System.out.println(" |  ____  | |");
+                            System.out.println(" |  LOOT  | /|");
+                            System.out.println("/|________|/|/");
+                            System.out.println("|____||____|/");
+                            System.out.println();
+                            if (openedLoot < LEGENDARY)
+                            {
+                                if (displays[COM_AMOUNT+RAR_AMOUNT+lege] == 0)
+                                {
+                                    System.out.println("LEGENDARY!!!");
+                                    System.out.println("You unlocked "+legendary[lege]+"!");
+                                    displays[COM_AMOUNT+RAR_AMOUNT+lege] = 1;
+                                }
+                                else
+                                {
+                                    System.out.println("The loot box was empty!");
+                                    System.out.println("+1 unlucky point!");
+                                    unluckyPoints++;
+                                    if (unluckyPoints == 1)
+                                    {
+                                        System.out.println("Due to the limited amount of loot, and lack of currency system,");
+                                        System.out.println("the best I can give you are these points.");
+                                        System.out.println("Have fun stacking them up! You'll be getting a lot of them.");
+                                    }
+                                }
+                            }
+                            else if (openedLoot < RARE)
+                            {
+                                if (displays[COM_AMOUNT+rar] == 0)
+                                {
+                                    System.out.println("RARE!!");
+                                    System.out.println("You unlocked "+rare[rar]+"!");
+                                    displays[COM_AMOUNT+rar] = 1;
+                                }
+                                else
+                                {
+                                    System.out.println("The loot box was empty!");
+                                    System.out.println("+1 unlucky point!");
+                                    unluckyPoints++;
+                                    if (unluckyPoints == 1)
+                                    {
+                                        System.out.println("Due to the limited amount of loot, and lack of currency system,");
+                                        System.out.println("the best I can give you are these points.");
+                                        System.out.println("Have fun stacking them up! You'll be getting a lot of them.");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (displays[com] == 0)
+                                {
+                                    System.out.println("COMMON!");
+                                    System.out.println("You unlocked "+common[com]+"!");
+                                    displays[com] = 1;
+                                }
+                                else
+                                {
+                                    System.out.println("The loot box was empty!");
+                                    System.out.println("+1 unlucky point!");
+                                    unluckyPoints++;
+                                    if (unluckyPoints == 1)
+                                    {
+                                        System.out.println("Due to the limited amount of loot, and lack of currency system,");
+                                        System.out.println("the best I can give you are these points.");
+                                        System.out.println("Have fun stacking them up! You'll be getting a lot of them.");
+                                    }
+                                }
+                            }
+                            System.out.println("Enter 'back' to return to your loot boxes.");
+                            if (scan.nextLine().equalsIgnoreCase("back"))
+                                openLoot = false;
+                        }
+                        wipePage();
+                    }
+                    else if (lootChoice.equals("2"))
+                    {
+                        saveScores(highscore, score, testScore, exp, lvl, highestTile, unluckyPoints);
+                        saveLoot(loot, currentDisplay);
+                        saveDisplays(displays);
+                        lootScreen = false;
+                    }
                 }
+            }
+            else if (input.equals("4"))
+            {
+                wipePage();
+                System.out.println("~=~ 2 0 4 8 ~=~");
+                System.out.println();
+                System.out.println("Get to each of these tiles to earn lootboxes!");
+                System.out.println();
+                System.out.print("128");
+                if (highestTile >= 128)
+                    System.out.print(" - Complete");
+                else
+                    System.out.print(" - Incomplete");
+                System.out.println();
+                System.out.print("256");
+                if (highestTile >= 256)
+                    System.out.print(" - Complete");
+                else
+                    System.out.print(" - Incomplete");
+                System.out.println();
+                System.out.print("512");
+                if (highestTile >= 512)
+                    System.out.print(" - Complete");
+                else
+                    System.out.print(" - Incomplete");
+                System.out.println();
+                System.out.print("1024");
+                if (highestTile >= 1024)
+                    System.out.print(" - Complete");
+                else
+                    System.out.print(" - Incomplete");
+                System.out.println();
+                System.out.print("2048");
+                if (highestTile >= 2048)
+                    System.out.print(" - Complete");
+                else
+                    System.out.print(" - Incomplete");
+                System.out.println();
+                System.out.print("4096");
+                if (highestTile >= 4096)
+                    System.out.print(" - Complete");
+                else
+                    System.out.print(" - Incomplete");
+                System.out.println();
+                System.out.println();
+                System.out.println("Enter any key to go back.");
+                scan.nextLine();
             }
             else if (input.equals("5"))
             {
@@ -107,6 +424,8 @@ public class twentyFourtyEight
                     System.out.println("EXPERIENCE: " + expToNextLvl + " / " + LEVEL_EXP);
                     System.out.println("TOTAL EXPERIENCE: " + totalExp);
                     System.out.println("HIGHSCORE: " + highscore);
+                    System.out.println("HIGHEST TILE: " + highestTile);
+                    System.out.println("UNLUCKY POINTS: "+ unluckyPoints);
                     System.out.println();
                     System.out.println("1 - CHANGE USERNAME");
                     System.out.println("2 - BACK");
@@ -189,21 +508,45 @@ public class twentyFourtyEight
                             wipePage();
                             System.out.println("~=~ 2 0 4 8 ~=~");
                             System.out.println();
-                            System.out.println(" ~,  _      ____   _    _   ____   _        _   _   ____   ,~");
-                            System.out.println("{ ' | |    | ___| | |  | | |  __| | |      | | | | |  _ \\  ' }");
-                            System.out.println(" \\  | |    | |__  | |  | | | |__  | |      | | | | | |_| |  /");
-                            System.out.println("  } | |    |  __| | \\  / | |  __| | |      | | | | |  __/  {");
-                            System.out.println(" /  | |__  | |__   \\ \\/ /  | |__  | |__    | |_| | | |      \\");
-                            System.out.println("{ , |____| |____|   \\__/   |____| |____|   |_____| |_|     , }");
-                            System.out.println(" ~'                                                        '~");
+                            System.out.println(" ~,   _      ____   _    _   ____   _        _   _   ____    ,~");
+                            System.out.println("{ '  | |    | ___| | |  | | |  __| | |      | | | | |  _ \\   ' }");
+                            System.out.println(" \\   | |    | |__  | |  | | | |__  | |      | | | | | |_| |   /");
+                            System.out.println("  }  | |    |  __| | \\  / | |  __| | |      | | | | |  __/   {");
+                            System.out.println(" /   | |__  | |__   \\ \\/ /  | |__  | |__    | |_| | | |       \\");
+                            System.out.println("{ ,  |____| |____|   \\__/   |____| |____|   |_____| |_|      , }");
+                            System.out.println(" ~'                                                          '~");
                             System.out.println();
                             System.out.println("You are now level "+lvl+"!");
                             System.out.println("+1 LOOT BOX");
-                            System.out.println("1 - CONTINUE");
                             System.out.println();
-                            System.out.println("Enter the corresponding number for each option.");
-                            if (scan.next().equals("1"))
+                            System.out.println("Enter 'return' to return to game.");
+                            if (scan.next().equalsIgnoreCase("return"))
                                 lvlUpScreen = false;
+                        }
+                    }
+                }
+
+                if (newTile == true)
+                {
+                    boolean chalScreen = true;
+                    loot++;
+                    newTile = false;
+                    while (chalScreen)
+                    {
+                        System.out.println("You got to the "+highestTile +" tile!");
+                        System.out.println("+1 LOOT BOX");
+                        System.out.println("Enter 'return' to return to game.");
+                        if (scan.next().equalsIgnoreCase("return"))
+                        {
+                            chalScreen = false;
+                            wipePage();
+                            display(grid);
+                        }
+                        else
+                        {
+                            wipePage();
+                            display(grid);
+                            System.out.println();
                         }
                     }
                 }
@@ -213,9 +556,9 @@ public class twentyFourtyEight
                 wipePage();
                 if (input.equalsIgnoreCase("back"))
                 {
-                    saveScores(highscore, score, testScore, exp, lvl);
-                    //lvl = (exp / 10) + 1;
+                    saveScores(highscore, score, testScore, exp, lvl, highestTile, unluckyPoints);
                     saveBoard(grid);
+                    saveLoot(loot, currentDisplay);
                     break backToMenu;
                 }
                 else if (input.equalsIgnoreCase("reset"))
@@ -277,9 +620,10 @@ public class twentyFourtyEight
                     gameOver = true;
             }
             newBoard = true;
+            validInput = false;
             System.out.println();
-            System.out.println("Game over! Play again?");
-            String continuePlaying = scan.next();
+            System.out.println("Game over! Play again? ('Yes' or 'No')");
+            String continuePlaying = scan.nextLine();
             while (!validInput)
             {
                 if (continuePlaying.equalsIgnoreCase("yes"))
@@ -288,6 +632,16 @@ public class twentyFourtyEight
                     playOn = true;
                     gameOver = false;
                     validInput = true;
+                    for (int y = 0; y < grid.length; y++)
+                    {
+                        for (int x = 0; x < grid.length; x++)
+                        {
+                            grid[y][x] = 0;
+                        }
+                    }
+                    saveBoard(grid);
+                    score = 0;
+                    saveScores(highscore, score, testScore, exp, lvl, highestTile, unluckyPoints);
                 }
                 else if (continuePlaying.equalsIgnoreCase("no"))
                 {
@@ -302,12 +656,15 @@ public class twentyFourtyEight
                     }
                     saveBoard(grid);
                     score = 0;
-                    saveScores(highscore, score, testScore, exp, lvl);
+                    saveScores(highscore, score, testScore, exp, lvl, highestTile, unluckyPoints);
                 }
                 else
                 {
-                    System.out.println("Please enter 'yes' or 'no'.");
-                    continuePlaying = scan.next();
+                    wipePage();
+                    display(grid);
+                    System.out.println();
+                    System.out.println("Game over! Play again? ('Yes' or 'No')");
+                    continuePlaying = scan.nextLine();
                 }
             }
         }
@@ -315,6 +672,7 @@ public class twentyFourtyEight
 
     public static void display (int[][] grid)
     {
+        Scanner scan = new Scanner(System.in);
         for (int y = 0; y < grid.length; y++)
         {
             for (int x = 0; x < grid.length; x++)
@@ -325,66 +683,126 @@ public class twentyFourtyEight
                     System.out.println();
                 }
                 if (y == 0 && x == 0 || y == 1 && x == 0 || y == 2 && x == 0 || y == 3 && x == 0)
-                    System.out.println("---------------------");
+                    System.out.println(chosenDisplay[0]);
                 if (x == 0)
-                    System.out.print("|");
+                    System.out.print(chosenDisplay[1]);
                 switch (grid[y][x])
                 {
                     case 0:
-                    System.out.print("    |");
+                    System.out.print("    "+chosenDisplay[1]);
                     break;
                     case 2:
-                    System.out.print("  2 |");
+                    System.out.print("  2 "+chosenDisplay[1]);
                     break;
                     case 4:
-                    System.out.print("  4 |");
+                    System.out.print("  4 "+chosenDisplay[1]);
+                    if (highestTile < 4)
+                        highestTile = 4;
                     break;
                     case 8:
-                    System.out.print("  8 |");
+                    System.out.print("  8 "+chosenDisplay[1]);
+                    if (highestTile < 8)
+                        highestTile = 8;
                     break;
                     case 16:
-                    System.out.print(" 16 |");
+                    System.out.print(" 16 "+chosenDisplay[1]);
+                    if (highestTile < 16)
+                        highestTile = 16;
                     break;
                     case 32:
-                    System.out.print(" 32 |");
+                    System.out.print(" 32 "+chosenDisplay[1]);
+                    if (highestTile < 32)
+                        highestTile = 32;
                     break;
                     case 64:
-                    System.out.print(" 64 |");
+                    System.out.print(" 64 "+chosenDisplay[1]);
+                    if (highestTile < 64)
+                        highestTile = 64;
                     break;
                     case 128:
-                    System.out.print(" 128|");
+                    System.out.print(" 128"+chosenDisplay[1]);
+                    if (highestTile < 128)
+                    {
+                        highestTile = 128;
+                        newTile = true;
+                    }
+
                     break;
                     case 256:
-                    System.out.print(" 256|");
+                    System.out.print(" 256"+chosenDisplay[1]);
+                    if (highestTile < 256)
+                    {
+                        highestTile = 256;
+                        newTile = true;
+                    }
+
                     break;
                     case 512:
-                    System.out.print(" 512|");
+                    System.out.print(" 512"+chosenDisplay[1]);
+                    if (highestTile < 512)
+                    {
+                        highestTile = 512;
+                        newTile = true;
+                    }
                     break;
                     case 1024:
-                    System.out.print("1024|");
+                    System.out.print("1024"+chosenDisplay[1]);
+                    if (highestTile < 1024)
+                    {
+                        highestTile = 1024;
+                        newTile = true;
+                    }
                     break;
                     case 2048:
-                    System.out.print("2048|");
+                    System.out.print("2048"+chosenDisplay[1]);
+                    if (highestTile < 2048)
+                    {
+                        highestTile = 2048;
+                        newTile = true;
+                    }
                     break;
                     case 4096:
-                    System.out.print("4096|");
+                    System.out.print("4096"+chosenDisplay[1]);
+                    if (highestTile < 4096)
+                    {
+                        highestTile = 4096;
+                        newTile = true;
+                    }
                     break;
                     case 8192:
-                    System.out.print("8192|");
+                    System.out.print("8192"+chosenDisplay[1]);
+                    if (highestTile < 8192)
+                        highestTile = 8192;
                     break;
                 }
 
+                if (y == 0 && x == 3)
+                    System.out.print("     "+user+" - LEVEL "+lvl);
+
                 if (y == 1 && x == 3)
-                    System.out.print("     Score: "+score);
+                {
+                    System.out.print("     ");
+                    for (int i = 0; i < exp; i++)
+                    {
+                        System.out.print("= ");
+                    }
+                    for (int i = exp; i < 10; i++)
+                    {
+                        System.out.print("- ");
+                    }
+                }
 
                 if (y == 2 && x == 3)
+                    System.out.print("     Score: "+score);
+
+                if (y == 3 && x == 3)
                     System.out.print("     Highscore: "+highscore);
 
                 if (x == 3)
                     System.out.println();
 
                 if (x == 3 && y == 3)
-                    System.out.println("---------------------");
+                    System.out.println(chosenDisplay[0]);
             }
         }
     }
@@ -597,147 +1015,62 @@ public class twentyFourtyEight
         return grid;
     }
 
-    /*public static void chooseUser ()
+    public static void displayGraphics(int choice)
     {
-    Scanner scan = new Scanner(System.in);
-    boolean choosingUser = true;
-
-    boolean correctPw = false;
-
-    while (choosingUser)
-    {
-    System.out.println("~=~ 2 0 4 8 ~=~");
-    System.out.println();
-    System.out.println("CHOOSE YOUR USER");
-    System.out.println();
-    System.out.println("1 - "+user1);
-    System.out.println("2 - "+user2);
-    System.out.println("3 - "+user3);
-    System.out.println("4 - "+user4);
-    System.out.println("5 - "+user5);
-    System.out.println();
-    System.out.println("6 - Quit");
-    System.out.println();
-    System.out.println("Enter the corresponding number for each option.");
-    String userChoice = scan.nextLine();
-    if (userChoice.equals("1"))
-    {
-    chosenUser = user1;
-    if (user1.equals("NEW USER"))
-    {
-    user1 = newUser();
-    }
-    else
-    {
-
-    user1 = getUsers(1);
-    pw = getPw();
-    System.out.println("Enter password. (Enter 'back' to leave.)");
-
-    label:
-    while (!correctPw)
-    {
-    String enteredPw = scan.nextLine();
-    if (enteredPw.equals(pw))
-    correctPw = true;
-    else if (enteredPw.equalsIgnoreCase("back"))
-    {
-    wipePage();
-    break label;
-    }
-    else
-    System.out.println("Incorrect. (Enter 'back' to leave.)");
-    }
-    }
-
-    if (correctPw)
-    {
-    chosenUser = user1;
-    choosingUser = false;
-    }
-    }
-    else if (userChoice.equals("2"))
-    {
-    chosenUser = user2;
-    if (user2.equals("NEW USER"))
-    {
-    user2 = newUser();
-    }
-    else
-    {
-    user2 = getUsers(2);
-    pw = getPw();
-    System.out.println("Enter password. (Enter 'back' to leave.)");
-
-    label:
-    while (!correctPw)
-    {
-    String enteredPw = scan.nextLine();
-    if (enteredPw.equals(pw))
-    correctPw = true;
-    else if (enteredPw.equalsIgnoreCase("back"))
-    {
-    wipePage();
-    break label;
-    }
-    else
-    System.out.println("Incorrect. (Enter 'back' to leave.)");
-    }
+        switch (choice)
+        {
+            case 1:
+            chosenDisplay[0] = "---------------------"; 
+            chosenDisplay[1] = "|";
+            break;
+            case 2:
+            chosenDisplay[0] = "=====================";
+            chosenDisplay[1] = "|";
+            break;
+            case 3:
+            chosenDisplay[0] = "+----+----+----+----+";
+            chosenDisplay[1] = "|";
+            break;
+            case 4:
+            chosenDisplay[0] = "~~~~~~~~~~~~~~~~~~~~~";
+            chosenDisplay[1] = "|";
+            break;
+            case 5:
+            chosenDisplay[0] = "|----|----|----|----|";
+            chosenDisplay[1] = "|";
+            break;
+            case 6:
+            chosenDisplay[0] = "^----^----^----^----^";
+            chosenDisplay[1] = "|";
+            break;
+            case 7:
+            chosenDisplay[0] = "\\----\\----\\----\\----\\"; //findthis
+            chosenDisplay[1] = "/";
+            break;
+            case 8:
+            chosenDisplay[0] = "o-o-o-o-o-o-o-o-o-o-o";
+            chosenDisplay[1] = "(";
+            break;
+            case 9:
+            chosenDisplay[0] = "_-==-_-==-_-==-_-==-_"; 
+            chosenDisplay[1] = "I";
+            break;
+            case 10:
+            chosenDisplay[0] = "}>-->}>-->}>-->}>-->}";
+            chosenDisplay[1] = "}";
+            break;
+            case 11:
+            chosenDisplay[0] = "[ ]>--<[ ]>--<[ ]>--<[ ]>--<[ ]";
+            chosenDisplay[1] = "[ ]";
+            break;
+            case 12:
+            chosenDisplay[0] = "( ):==:( ):==:( ):==:( ):==:( )";
+            chosenDisplay[1] = ") (";
+            break;
+        }
     }
 
-    if (correctPw)
-    {
-    chosenUser = user2;
-    choosingUser = false;
-    }
-    }
-    else if (userChoice.equals("6"))
-    {
-    wipePage();
-    System.exit(0);
-    }
-    wipePage();
-    saveUsers(user1, user2, user3, user4, user5);
-    savePw(pw);
-    }
-
-    }*/
-
-    /*public static String newUser()
-    {
-    final int MAX_LENGTH = 7;
-    Scanner scan = new Scanner(System.in);
-    boolean validChoice = false;
-    boolean correctPw = false;
-    System.out.println("Create name for new user. (Maximum length of 7.)");
-    String user = "NEW USER";
-    while (!validChoice)
-    {
-    user = scan.nextLine();
-    if (user1.length() > MAX_LENGTH)
-    System.out.println("That username is too long. Try again.");
-    else
-    validChoice = true;
-    }
-    user = user.toUpperCase();
-    validChoice = false;
-    System.out.println("Create password for new user. (Maximum length of 7.)");
-    while (!validChoice)
-    {
-    pw = scan.nextLine();
-    if (pw.length() > MAX_LENGTH)
-    System.out.println("That password is too long. Try again.");
-    else
-    {
-    validChoice = true;
-    correctPw = true;
-    }
-    }
-
-    return user;
-    }*/
-
-    public static int getScores (int whichScore)
+    public static int getScores (int whichScore) //0 = highscore, 1 = score, 2 = testScore, 3 = exp, 4 = lvl
     {
         File f = new File ("score.txt");
         try 
@@ -755,7 +1088,7 @@ public class twentyFourtyEight
         }
     }
 
-    public static void saveScores (int highscore, int score, int testScore, int exp, int lvl)
+    public static void saveScores (int highscore, int score, int testScore, int exp, int lvl, int highestTile, int unluckyPoints)
     {
         File f = new File ("score.txt");
         f.delete();
@@ -767,7 +1100,8 @@ public class twentyFourtyEight
             print.println(testScore);
             print.println(exp);
             print.println(lvl);
-            //print.println(exp);
+            print.println(highestTile);
+            print.println(unluckyPoints);
             print.close();
         }
         catch (Exception e)
@@ -794,14 +1128,6 @@ public class twentyFourtyEight
         }
         catch (Exception e)
         {
-            //Scanner scan = new Scanner(f);
-            /*for (int y = 0; y < grid.length; y++)
-            {
-            for (int x = 0; x < grid.length; x++)
-            {
-            grid[y][x] = 0;
-            }
-            }*/
             return grid;
         }
     }
@@ -831,36 +1157,6 @@ public class twentyFourtyEight
         }
     }
 
-    /*public static void savePw (String pw)
-    {
-    File f = new File (chosenUser+"pw.txt");
-    f.delete();
-    try
-    {
-    PrintWriter print = new PrintWriter(new File(chosenUser+"pw.txt"));
-    print.println(pw);
-    print.close();
-    }
-    catch (Exception e)
-    {
-
-    }
-    }*/
-
-    /*public static String getPw ()
-    {
-    File f = new File (chosenUser+"pw.txt");
-    try 
-    {
-    Scanner scan = new Scanner(f);
-    return scan.nextLine();
-    }
-    catch (Exception e)
-    {
-    return "NEW PASSWORD";
-    }
-    }*/
-
     public static void saveUser (String user)
     {
         File f = new File ("user.txt");
@@ -877,26 +1173,6 @@ public class twentyFourtyEight
         }
     }
 
-    /*public static void saveUser1 (String user1, String user2, String user3, String user4, String user5)
-    {
-    File f = new File ("users.txt");
-    f.delete();
-    try
-    {
-    PrintWriter print = new PrintWriter(new File("users.txt"));
-    print.println(user1);
-    print.println(user2);
-    print.println(user3);
-    print.println(user4);
-    print.println(user5);
-    print.close();
-    }
-    catch (Exception e)
-    {
-
-    }
-    }*/
-
     public static String getUser()
     {
         File f = new File ("user.txt");
@@ -911,41 +1187,93 @@ public class twentyFourtyEight
         }
     }
 
-    public static void expDisplay (int exp)
+    public static void saveLoot (int loot, int currentDisplay)
     {
-        for (int i = 0; i < exp; i++)
+        File f = new File ("loot.txt");
+        f.delete();
+        try
         {
-            System.out.print("= ");
+            PrintWriter print = new PrintWriter(new File("loot.txt"));
+            print.println(loot);
+            print.println(currentDisplay);
+            /*for (int i = 0; i < displays.length; i++)
+            {
+            print.print(displays[i]+" ");
+            }*/
+            print.close();
         }
-        /*if (exp%10 == 0)
+        catch (Exception e)
         {
-        for (int i = 0; i < 10; i++)
-        System.out.print("= ");
-        }*/
-        for (int i = exp; i < 10; i++)
-        {
-            System.out.print("- ");
         }
-        System.out.println();
     }
-    /*public static String getUsers (int amount)
+
+    public static int getLoot(int whichLoot) //0 = loot, 1 = current display, 2 = displays
     {
-    File f = new File ("users.txt");
-    try 
-    {
-    Scanner scan = new Scanner(f);
-    for (int i = 0; i < amount; i++)
-    {
-    if (i == amount-1)
-    return scan.nextLine();
-    else
-    scan.nextLine();
+        File f = new File ("loot.txt");
+        try 
+        {
+            Scanner scan = new Scanner(f);
+            for (int i = 0; i < whichLoot; i++)
+            {
+                /*if (i == 2)
+                {
+                for (int j = 0; j < displays.length; j++)
+                {
+                displays[j] = scan.nextInt();
+                }
+                }
+                else*/
+                scan.nextInt();
+            }
+            return scan.nextInt();
+        }
+        catch (Exception e)
+        {
+            return 0;
+        }
     }
-    }
-    catch (Exception e)
+
+    public static int[] getDisplays ()
     {
-    return "NEW USER";
+        File f = new File ("displays.txt");
+        int[] displays = new int[12];
+        try 
+        {
+            Scanner scan = new Scanner(f);
+            for (int i = 0; i < displays.length; i++)
+            {
+                displays[i] = scan.nextInt();
+            }
+            return displays;
+        }
+        catch (Exception e)
+        {
+            return displays;
+        }
     }
-    return "NEW USER";
-    }*/
+
+    public static void saveDisplays (int[] displays)
+    {
+        File f = new File ("displays.txt");
+        f.delete();
+        try
+        {
+            PrintWriter print = new PrintWriter(new File("displays.txt"));
+            for (int i = 0; i < displays.length; i++)
+            {
+                try
+                {
+                    print.println(displays[i]);
+                }
+                catch (Exception e)
+                {
+                    print.println(0);
+                }
+            }
+            print.close();
+        }
+        catch (Exception e)
+        {
+        }
+    }
 }
