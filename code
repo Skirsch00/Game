@@ -15,8 +15,11 @@ public class twentyFourtyEight
     public static int unluckyPoints = getScores(6);
     public static int[] displays = getDisplays(); //0 is locked, 1 is unlocked
     public static boolean newTile = false;
+    public static boolean newDisplay;
     public static void main (String [] args)
     {
+        if (getLoot(2) == 1)
+        newDisplay = true;
         saveDisplays(displays);
         if (getLoot(1) == 0)
             currentDisplay = 1;
@@ -74,8 +77,14 @@ public class twentyFourtyEight
             System.out.println();
             System.out.println();
             System.out.println("1 - PLAY");
-            System.out.println("2 - DISPLAYS");
-            System.out.println("3 - LOOT");
+            System.out.print("2 - DISPLAYS ");
+            if (newDisplay)
+            System.out.print("(NEW)");
+            System.out.println();
+            System.out.print("3 - LOOT ");
+            if (loot > 0)
+                System.out.print("("+loot+")");
+            System.out.println();
             System.out.println("4 - CHALLENGES");
             System.out.println("5 - PROFILE");
             System.out.println("6 - QUIT");
@@ -96,6 +105,7 @@ public class twentyFourtyEight
 
                 while (displayScreen)
                 {
+                    newDisplay = false;
                     wipePage();
                     System.out.println("~=~ 2 0 4 8 ~=~");
                     System.out.println();
@@ -318,7 +328,7 @@ public class twentyFourtyEight
                             }
                             else
                             {
-                                
+
                                 empty = true;
                                 lootDisplay(empty);
                                 System.out.println("The loot box was empty!");
@@ -337,7 +347,7 @@ public class twentyFourtyEight
                             }
                             else
                             {
-                                
+
                                 empty = true;
                                 lootDisplay(empty);
                                 System.out.println("The loot box was empty!");
@@ -345,6 +355,9 @@ public class twentyFourtyEight
                                 unluckyPoints++;
                             }
                         }
+                        
+                        if (!empty)
+                        newDisplay = true;
                         
                         if (empty && unluckyPoints == 1)
                         {
@@ -373,7 +386,7 @@ public class twentyFourtyEight
                     else if (lootChoice.equals("2"))
                     {
                         saveScores(highscore, score, testScore, exp, lvl, highestTile, unluckyPoints);
-                        saveLoot(loot, currentDisplay);
+                        saveLoot(loot, currentDisplay, newDisplay);
                         saveDisplays(displays);
                         lootScreen = false;
                     }
@@ -609,7 +622,7 @@ public class twentyFourtyEight
                 {
                     saveScores(highscore, score, testScore, exp, lvl, highestTile, unluckyPoints);
                     saveBoard(grid);
-                    saveLoot(loot, currentDisplay);
+                    saveLoot(loot, currentDisplay, newDisplay);
                     break backToMenu;
                 }
                 else if (input.equalsIgnoreCase("reset"))
@@ -1232,7 +1245,7 @@ public class twentyFourtyEight
         }
     }
 
-    public static void saveLoot (int loot, int currentDisplay)
+    public static void saveLoot (int loot, int currentDisplay, boolean newDisplay) //1 is new
     {
         File f = new File ("loot.txt");
         f.delete();
@@ -1241,6 +1254,10 @@ public class twentyFourtyEight
             PrintWriter print = new PrintWriter(new File("loot.txt"));
             print.println(loot);
             print.println(currentDisplay);
+            if (newDisplay)
+            print.println(1);
+            else
+            print.println(0);
             print.close();
         }
         catch (Exception e)
@@ -1248,7 +1265,7 @@ public class twentyFourtyEight
         }
     }
 
-    public static int getLoot(int whichLoot) //0 = loot, 1 = current display, 2 = displays
+    public static int getLoot(int whichLoot) //0 = loot, 1 = current display, 2 = new display
     {
         File f = new File ("loot.txt");
         try 
