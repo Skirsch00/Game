@@ -16,10 +16,14 @@ public class twentyFourtyEight
     public static int[] displays = getDisplays(); //0 is locked, 1 is unlocked
     public static boolean newTile = false;
     public static boolean newDisplay;
+
     public static void main (String [] args)
     {
+        final int LEGE_AMOUNT = 4;
+        final int RAR_AMOUNT = 7;
+        final int COM_AMOUNT = 10;
         if (getLoot(2) == 1)
-        newDisplay = true;
+            newDisplay = true;
         saveDisplays(displays);
         if (getLoot(1) == 0)
             currentDisplay = 1;
@@ -51,8 +55,8 @@ public class twentyFourtyEight
                 System.out.println("and all the numbers will move in that direction.");
                 System.out.println("If two of the same numbers meet, they become one number, doubled in value.");
                 System.out.println("Once you can no longer move the numbers, it's game over.");
-                System.out.println("All progess is saved, even if you exit BlueJ.");
                 System.out.println("Try to get as large a number as possible! Have fun!");
+                System.out.println("(ALL PROGRESS IS SAVED, EVEN IF YOU EXIT BLUEJ!)");
                 System.out.println();
                 System.out.println("Enter 'continue' to play!");
                 if (scan.nextLine().equalsIgnoreCase("continue"))
@@ -79,7 +83,7 @@ public class twentyFourtyEight
             System.out.println("1 - PLAY");
             System.out.print("2 - DISPLAYS ");
             if (newDisplay)
-            System.out.print("(NEW)");
+                System.out.print("(NEW)");
             System.out.println();
             System.out.print("3 - LOOT ");
             if (loot > 0)
@@ -102,100 +106,52 @@ public class twentyFourtyEight
             else if (input.equals("2"))
             {
                 boolean displayScreen = true;
-
+                String rarity = "common";
                 while (displayScreen)
                 {
                     newDisplay = false;
-                    wipePage();
-                    System.out.println("~=~ 2 0 4 8 ~=~");
+                    displaysMenu(rarity);
                     System.out.println();
-                    System.out.println("Choose your display.");
-                    System.out.println();
-                    System.out.println("- COMMON -");
-                    System.out.print("1 - STANDARD");
-                    if (currentDisplay == 1)
-                        System.out.print(" - Active");
-                    System.out.println();
-                    System.out.print("2 - DOUBLE");
-                    if (currentDisplay == 2 && displays[1] == 1)
-                        System.out.print(" - Active");
-                    else if (displays[1] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.print("3 - SPIKE");
-                    if (currentDisplay == 3 && displays[2] == 1)
-                        System.out.print(" - Active");
-                    else if (displays[2] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.print("4 - WAVE");
-                    if (currentDisplay == 4 && displays[3] == 1)
-                        System.out.print(" - Active");
-                    else if (displays[3] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.print("5 - PILLAR");
-                    if (currentDisplay == 5 && displays[4] == 1)
-                        System.out.print(" - Active");
-                    else  if (displays[4] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.print("6 - POINT");
-                    if (currentDisplay == 6 && displays[5] == 1)
-                        System.out.print(" - Active");
-                    else if (displays[5] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.println("-= RARE =-");
-                    System.out.print("7 - ZIG ZAG");
-                    if (currentDisplay == 7 && displays[6] == 1) 
-                        System.out.print(" - Active");
-                    else if (displays[6] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.print("8 - BUBBLE");
-                    if (currentDisplay == 8 && displays[7] == 1)
-                        System.out.print(" - Active");
-                    else if (displays[7] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.print("9 - TOWER");
-                    if (currentDisplay == 9 && displays[8] == 1)
-                        System.out.print(" - Active");
-                    else if (displays[8] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.print("10 - ARROW");
-                    if (currentDisplay == 10 && displays[9] == 1)
-                        System.out.print(" - Active");
-                    else if (displays[9] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.println("-=- LEGENDARY -=-");
-                    System.out.print("11 - HURDLE");
-                    if (currentDisplay == 11 && displays[10] == 1)
-                        System.out.print(" - Active");
-                    else if (displays[10] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.print("12 - POP");
-                    if (currentDisplay == 12 && displays[11] == 1)
-                        System.out.print(" - Active");
-                    else if (displays[11] == 0)
-                        System.out.print(" - Locked");
-                    System.out.println();
-                    System.out.println();
-                    System.out.println("13 - BACK");
+                    if (rarity.equals("common"))
+                    {
+                        System.out.println("11 - RARE DISPLAYS");
+                        System.out.println("12 - BACK");
+                    }
+                    else if (rarity.equals("rare"))
+                    {
+                        System.out.println("8 - LEGENDARY DISPLAYS");
+                        System.out.println("9 - BACK");
+                    }
+                    else
+                    {
+                        System.out.println("5 - COMMON DISPLAYS");
+                        System.out.println("6 - BACK");
+                    }
+
                     System.out.println();
                     System.out.println("Enter the corresponding number for each option.");
                     String displayChoice = scan.nextLine();
-                    if (displayChoice.equals("13"))
+                    if (rarity.equals("common") && displayChoice.equals("12"))
                         displayScreen = false;
+                    else if (rarity.equals("rare") && displayChoice.equals("9"))
+                        displayScreen = false;
+                    else if (rarity.equals("legendary") && displayChoice.equals("6"))
+                        displayScreen = false;
+                    else if (rarity.equals("common") && displayChoice.equals("11"))
+                        rarity = "rare";
+                    else if (rarity.equals("rare") && displayChoice.equals("8"))
+                        rarity = "legendary";
+                    else if (rarity.equals("legendary") && displayChoice.equals("5"))
+                        rarity = "common";
                     else
                     {
                         try 
                         {
                             int choice = Integer.parseInt(displayChoice);
+                            if (rarity.equals("rare"))
+                                choice += COM_AMOUNT;
+                            else if (rarity.equals("legendary"))
+                                choice += (COM_AMOUNT+RAR_AMOUNT);
                             if (displays[choice-1] == 1)
                             {
                                 displayGraphics(choice);
@@ -207,14 +163,15 @@ public class twentyFourtyEight
                         }
                     }
                 }
+                saveLoot(loot, currentDisplay, newDisplay);
             }
             else if (input.equals("3"))
             {
                 boolean lootScreen = true;
-                String[] common = {"STANDARD", "DOUBLE", "SPIKE", "WAVE", "PILLAR", "POINT"};
-                String[] rare = {"ZIG ZAG", "BUBBLE", "TOWER", "ARROW"};       
-                String[] legendary = {"HURDLE", "POP"};
-                while (lootScreen)
+                String[] common = {"STANDARD", "DOUBLE", "SPIKE", "WAVE", "PILLAR", "POINT", "BRIDGE", "PULSE", "SNAP", "FLUFF"};
+                String[] rare = {"ZIG ZAG", "BUBBLE", "TOWER", "ARROW", "ZOOM", "JAGGED", "MOUNTAIN"};       
+                String[] legendary = {"HURDLE", "POP", "CANDY CANE", "WOBBLE"};
+                while (lootScreen)  //findthis
                 {
                     wipePage();
                     System.out.println("~=~ 2 0 4 8 ~=~");
@@ -288,10 +245,8 @@ public class twentyFourtyEight
                         Random ran = new Random();
                         final int TOTAL_CHANCE = 100;
                         final int LEGENDARY = 10;
-                        final int LEGE_AMOUNT = 2;
+
                         final int RARE = 35;
-                        final int RAR_AMOUNT = 4;
-                        final int COM_AMOUNT = 6;
                         int com = ran.nextInt(COM_AMOUNT);
                         int rar = ran.nextInt(RAR_AMOUNT);
                         int lege = ran.nextInt(LEGE_AMOUNT);
@@ -299,6 +254,7 @@ public class twentyFourtyEight
                         boolean openLoot = true;
 
                         boolean empty = false;
+                        String lootMessage;
                         if (openedLoot < LEGENDARY)
                         {
                             if (displays[COM_AMOUNT+RAR_AMOUNT+lege] == 0)
@@ -306,6 +262,7 @@ public class twentyFourtyEight
                                 lootDisplay(empty);
                                 System.out.println("LEGENDARY!!!");
                                 System.out.println("You unlocked "+legendary[lege]+"!");
+                                lootMessage = ("LEGENDARY!!!\nYou unlocked "+legendary[lege]+"!");
                                 displays[COM_AMOUNT+RAR_AMOUNT+lege] = 1;
                             }
                             else
@@ -314,6 +271,7 @@ public class twentyFourtyEight
                                 lootDisplay(empty);
                                 System.out.println("The loot box was empty!");
                                 System.out.println("+1 unlucky point!");
+                                lootMessage = ("The loot box was empty!\n+1 unlucky point!");
                                 unluckyPoints++;
                             }
                         }
@@ -324,6 +282,7 @@ public class twentyFourtyEight
                                 lootDisplay(empty);
                                 System.out.println("RARE!!");
                                 System.out.println("You unlocked "+rare[rar]+"!");
+                                lootMessage = ("RARE!!\nYou unlocked "+rare[rar]+"!");
                                 displays[COM_AMOUNT+rar] = 1;
                             }
                             else
@@ -333,6 +292,7 @@ public class twentyFourtyEight
                                 lootDisplay(empty);
                                 System.out.println("The loot box was empty!");
                                 System.out.println("+1 unlucky point!");
+                                lootMessage = ("The loot box was empty!\n+1 unlucky point!");
                                 unluckyPoints++;
                             }
                         }
@@ -343,6 +303,7 @@ public class twentyFourtyEight
                                 lootDisplay(empty);
                                 System.out.println("COMMON!");
                                 System.out.println("You unlocked "+common[com]+"!");
+                                lootMessage = ("COMMON!\nYou unlocked "+common[com]+"!");
                                 displays[com] = 1;
                             }
                             else
@@ -352,13 +313,14 @@ public class twentyFourtyEight
                                 lootDisplay(empty);
                                 System.out.println("The loot box was empty!");
                                 System.out.println("+1 unlucky point!");
+                                lootMessage = ("The loot box was empty!\n+1 unlucky point!");
                                 unluckyPoints++;
                             }
                         }
-                        
+
                         if (!empty)
-                        newDisplay = true;
-                        
+                            newDisplay = true;
+
                         if (empty && unluckyPoints == 1)
                         {
                             System.out.println("Due to the limited amount of loot, and lack of currency system,");
@@ -374,13 +336,13 @@ public class twentyFourtyEight
                             while (openLoot)
                             {
                                 lootDisplay(empty);
+                                System.out.println(lootMessage);
                                 System.out.println("Enter 'back' to return to your loot boxes.");
                                 if (scan.nextLine().equalsIgnoreCase("back"))
                                     openLoot = false;
                             }
                         }
 
-                        //}
                         wipePage();
                     }
                     else if (lootChoice.equals("2"))
@@ -486,6 +448,161 @@ public class twentyFourtyEight
                 choosingMenu = false;
                 System.exit(0);
             }
+        }
+    }
+
+    public static void displaysMenu(String rarity)
+    {
+        if (rarity.equals("common"))
+        {
+            wipePage();
+            System.out.println("~=~ 2 0 4 8 ~=~");
+            System.out.println();
+            System.out.println("Choose your display.");
+            System.out.println();
+            System.out.println("~ COMMON ~");
+            System.out.print("1 - STANDARD");
+            if (currentDisplay == 1)
+                System.out.print(" - Active");
+            System.out.println();
+            System.out.print("2 - DOUBLE");
+            if (currentDisplay == 2 && displays[1] == 1)
+                System.out.print(" - Active");
+            else if (displays[1] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("3 - SPIKE");
+            if (currentDisplay == 3 && displays[2] == 1)
+                System.out.print(" - Active");
+            else if (displays[2] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("4 - WAVE");
+            if (currentDisplay == 4 && displays[3] == 1)
+                System.out.print(" - Active");
+            else if (displays[3] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("5 - PILLAR");
+            if (currentDisplay == 5 && displays[4] == 1)
+                System.out.print(" - Active");
+            else  if (displays[4] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("6 - POINT");
+            if (currentDisplay == 6 && displays[5] == 1)
+                System.out.print(" - Active");
+            else if (displays[5] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("7 - BRIDGE");
+            if (currentDisplay == 7 && displays[6] == 1)    //findthis
+                System.out.print(" - Active");
+            else if (displays[6] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("8 - PULSE");
+            if (currentDisplay == 8 && displays[7] == 1)
+                System.out.print(" - Active");
+            else if (displays[7] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("9 - SNAP");
+            if (currentDisplay == 9 && displays[8] == 1)
+                System.out.print(" - Active");
+            else if (displays[8] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("10 - FLUFF");
+            if (currentDisplay == 10 && displays[9] == 1)
+                System.out.print(" - Active");
+            else if (displays[9] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+        }
+        else if (rarity.equals("rare"))
+        {
+            wipePage();
+            System.out.println("~=~ 2 0 4 8 ~=~");
+            System.out.println();
+            System.out.println("Choose your display.");
+            System.out.println();
+            System.out.println("~= RARE =~");
+            System.out.print("1 - ZIG ZAG");
+            if (currentDisplay == 11 && displays[10] == 1) 
+                System.out.print(" - Active");
+            else if (displays[10] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("2 - BUBBLE");
+            if (currentDisplay == 12 && displays[11] == 1)
+                System.out.print(" - Active");
+            else if (displays[11] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("3 - TOWER");
+            if (currentDisplay == 13 && displays[12] == 1)
+                System.out.print(" - Active");
+            else if (displays[12] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("4 - ARROW");
+            if (currentDisplay == 14 && displays[13] == 1)
+                System.out.print(" - Active");
+            else if (displays[13] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("5 - ZOOM");
+            if (currentDisplay == 15 && displays[14] == 1)
+                System.out.print(" - Active");
+            else if (displays[14] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("6 - JAGGED");
+            if (currentDisplay == 16 && displays[15] == 1)
+                System.out.print(" - Active");
+            else if (displays[15] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("7 - MOUNTAIN");
+            if (currentDisplay == 17 && displays[16] == 1)
+                System.out.print(" - Active");
+            else if (displays[16] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+        }
+        else if (rarity.equals("legendary"))
+        {
+            wipePage();
+            System.out.println("~=~ 2 0 4 8 ~=~");
+            System.out.println();
+            System.out.println("Choose your display.");
+            System.out.println();
+            System.out.println("~=~ LEGENDARY ~=~");
+            System.out.print("1 - HURDLE");
+            if (currentDisplay == 18 && displays[17] == 1)
+                System.out.print(" - Active");
+            else if (displays[17] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("2 - POP");
+            if (currentDisplay == 19 && displays[18] == 1)
+                System.out.print(" - Active");
+            else if (displays[18] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("3 - CANDY CANE");
+            if (currentDisplay == 20 && displays[19] == 1)
+                System.out.print(" - Active");
+            else if (displays[19] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
+            System.out.print("4 - WOBBLE");
+            if (currentDisplay == 21 && displays[20] == 1)
+                System.out.print(" - Active");
+            else if (displays[11] == 0)
+                System.out.print(" - Locked");
+            System.out.println();
         }
     }
 
@@ -1102,28 +1219,64 @@ public class twentyFourtyEight
             chosenDisplay[1] = "|";
             break;
             case 7:
+            chosenDisplay[0] = "_----_----_----_----_"; //findthis
+            chosenDisplay[1] = "|";
+            break;
+            case 8:
+            chosenDisplay[0] = "--==---==---==---==--"; 
+            chosenDisplay[1] = "|";
+            break;
+            case 9:
+            chosenDisplay[0] = "--++---++---++---++--"; 
+            chosenDisplay[1] = "|";
+            break;
+            case 10:
+            chosenDisplay[0] = "*********************"; 
+            chosenDisplay[1] = "|";
+            break;
+            case 11:
             chosenDisplay[0] = "\\----\\----\\----\\----\\"; 
             chosenDisplay[1] = "/";
             break;
-            case 8:
+            case 12:
             chosenDisplay[0] = "o-o-o-o-o-o-o-o-o-o-o";
             chosenDisplay[1] = "(";
             break;
-            case 9:
+            case 13:
             chosenDisplay[0] = "_-==-_-==-_-==-_-==-_"; 
             chosenDisplay[1] = "I";
             break;
-            case 10:
+            case 14:
             chosenDisplay[0] = "}>-->}>-->}>-->}>-->}";
             chosenDisplay[1] = "}";
             break;
-            case 11:
+            case 15:
+            chosenDisplay[0] = ":-++-:-++-:-++-:-++-:";
+            chosenDisplay[1] = ":";
+            break;
+            case 16:
+            chosenDisplay[0] = "/-//-/-//-/-//-/-//-/";
+            chosenDisplay[1] = "|";
+            break;
+            case 17:
+            chosenDisplay[0] = "<~<~<~<~<~<~<~<~<~<~<";
+            chosenDisplay[1] = ">";
+            break;
+            case 18:
             chosenDisplay[0] = "[ ]>--<[ ]>--<[ ]>--<[ ]>--<[ ]";
             chosenDisplay[1] = "[ ]";
             break;
-            case 12:
+            case 19:
             chosenDisplay[0] = "( ):==:( ):==:( ):==:( ):==:( )";
             chosenDisplay[1] = ") (";
+            break;
+            case 20:
+            chosenDisplay[0] = "| |`-,_| |`-,_| |`-,_| |`-,_| |";
+            chosenDisplay[1] = "| |";
+            break;
+            case 21:
+            chosenDisplay[0] = "} {-<>-} {-<>-} {-<>-} {-<>-} {";
+            chosenDisplay[1] = "{ }";
             break;
         }
     }
@@ -1255,9 +1408,9 @@ public class twentyFourtyEight
             print.println(loot);
             print.println(currentDisplay);
             if (newDisplay)
-            print.println(1);
+                print.println(1);
             else
-            print.println(0);
+                print.println(0);
             print.close();
         }
         catch (Exception e)
@@ -1286,7 +1439,7 @@ public class twentyFourtyEight
     public static int[] getDisplays ()
     {
         File f = new File ("displays.txt");
-        int[] displays = new int[12];
+        int[] displays = new int[21];
         try 
         {
             Scanner scan = new Scanner(f);
