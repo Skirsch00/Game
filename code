@@ -611,7 +611,7 @@ public class twentyFourtyEight
             System.out.print("4 - WOBBLE");
             if (currentDisplay == 21 && displays[20] == 1)
                 System.out.print(" - Active");
-            else if (displays[21] == 0)
+            else if (displays[20] == 0)
                 System.out.print(" - Locked");
             System.out.println();
         }
@@ -1503,4 +1503,3 @@ public class twentyFourtyEight
 //(quick tip)
 //if you wanna cheat and unlock all the displays
 //go to the project folder, open displays.txt, and change the 0s to 1s
-
