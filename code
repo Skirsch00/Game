@@ -1,7 +1,17 @@
 import java.util.*;
 import java.io.*;
+
+//for mr jamieson:
+//i learned how to make and use save files for this game
+//i probably did them messily, but this game is much better with saved progress
+//so as long as the save files work, i'm happy.
+//also, heres a tip for the game: try to never go up!
+//if you didnt already figure that out, youll have a much better time playing with that knowledge
+//have fun looking at this spaghetti code
+
 public class twentyFourtyEight
-{
+{   //a bunch of random public variables that are used in a bunch of methods
+    //making the variables public was the easiest way of doing this for me
     public static int score;
     public static int testScore = getScores(2);
     public static int highscore;
@@ -13,19 +23,19 @@ public class twentyFourtyEight
     public static int highestTile = getScores(5);
     public static int currentDisplay;
     public static int unluckyPoints = getScores(6);
-    public static int[] displays = getDisplays(); //0 is locked, 1 is unlocked
+    public static int[] displays = getDisplays();
     public static boolean newTile = false;
     public static boolean newDisplay;
 
-    public static void main (String [] args)
-    {
-        final int LEGE_AMOUNT = 4;
-        final int RAR_AMOUNT = 7;
+    public static void main (String [] args)    //this is where i have the main menu
+    {                                           //as well as a few features
+        final int LEGE_AMOUNT = 4;  //the first lines of code here are just some extra things i need to do for
+        final int RAR_AMOUNT = 7;   //the save files. again, it's messy, but it works
         final int COM_AMOUNT = 10;
         if (getLoot(2) == 1)
             newDisplay = true;
         saveDisplays(displays);
-        if (getLoot(1) == 0)
+        if (getLoot(1) == 0)        
             currentDisplay = 1;
         else
             currentDisplay = getLoot(1);
@@ -34,7 +44,7 @@ public class twentyFourtyEight
         displayGraphics(currentDisplay);
         Scanner scan = new Scanner(System.in);
         boolean choosingMenu = true;
-        if (user.equals("NEW USER"))
+        if (user.equals("NEW USER"))    //tutorial
         {
             System.out.println("~=~ 2 0 4 8 ~=~");
             System.out.println();
@@ -63,14 +73,14 @@ public class twentyFourtyEight
                     tutorial = false;
             }
         }
-        while (choosingMenu)
+        while (choosingMenu)    
         {
             wipePage();
             choosingMenu = true;
             System.out.println("~=~ 2 0 4 8 ~=~");
             System.out.println();
             System.out.println(user+" - LEVEL "+lvl);
-            for (int i = 0; i < exp; i++)
+            for (int i = 0; i < exp; i++) //this is a visual display for experience
             {
                 System.out.print("= ");
             }
@@ -96,14 +106,14 @@ public class twentyFourtyEight
             System.out.println("Enter the corresponding number for each option.");
             String input = scan.nextLine();
 
-            if (input.equals("1"))
-            {
-                highscore = getScores(0);
+            if (input.equals("1")) //i made the menus always in a loop, so if the user inputs something that
+            {                       //isnt an option, no error message pops up, just nothing happens
+                highscore = getScores(0);   //it makes the game seem cleaner in my opinion
                 score = getScores(1);
                 wipePage();
-                play();
+                play();         //this runs the game itself
             }
-            else if (input.equals("2"))
+            else if (input.equals("2")) //this is where i show and keep track the board displays
             {
                 boolean displayScreen = true;
                 String rarity = "common";
@@ -137,7 +147,7 @@ public class twentyFourtyEight
                         displayScreen = false;
                     else if (rarity.equals("legendary") && displayChoice.equals("6"))
                         displayScreen = false;
-                    else if (rarity.equals("common") && displayChoice.equals("11"))
+                    else if (rarity.equals("common") && displayChoice.equals("11")) //just some menu stuff
                         rarity = "rare";
                     else if (rarity.equals("rare") && displayChoice.equals("8"))
                         rarity = "legendary";
@@ -150,7 +160,7 @@ public class twentyFourtyEight
                             int choice = Integer.parseInt(displayChoice);
                             if (rarity.equals("rare"))
                                 choice += COM_AMOUNT;
-                            else if (rarity.equals("legendary"))
+                            else if (rarity.equals("legendary"))    //some selection stuff
                                 choice += (COM_AMOUNT+RAR_AMOUNT);
                             if (displays[choice-1] == 1)
                             {
@@ -170,8 +180,8 @@ public class twentyFourtyEight
                 boolean lootScreen = true;
                 String[] common = {"STANDARD", "DOUBLE", "SPIKE", "WAVE", "PILLAR", "POINT", "BRIDGE", "PULSE", "SNAP", "FLUFF"};
                 String[] rare = {"ZIG ZAG", "BUBBLE", "TOWER", "ARROW", "ZOOM", "JAGGED", "MOUNTAIN"};       
-                String[] legendary = {"HURDLE", "POP", "CANDY CANE", "WOBBLE"};
-                while (lootScreen)  //findthis
+                String[] legendary = {"HURDLE", "POP", "CANDY CANE", "WOBBLE"}; //i list all the board displays here
+                while (lootScreen)  //this is the loot feature (loot is the board displays)
                 {
                     wipePage();
                     System.out.println("~=~ 2 0 4 8 ~=~");
@@ -196,7 +206,7 @@ public class twentyFourtyEight
                     System.out.println();
                     System.out.println("Enter the corresponding number for each option.");
                     String lootChoice = scan.nextLine();
-                    if (lootChoice.equals("1") && loot > 0)
+                    if (lootChoice.equals("1") && loot > 0) //animation
                     {
                         loot--;
                         wipePage();
@@ -248,9 +258,9 @@ public class twentyFourtyEight
 
                         final int RARE = 35;
                         int com = ran.nextInt(COM_AMOUNT);
-                        int rar = ran.nextInt(RAR_AMOUNT);
-                        int lege = ran.nextInt(LEGE_AMOUNT);
-                        int openedLoot = ran.nextInt(TOTAL_CHANCE);
+                        int rar = ran.nextInt(RAR_AMOUNT);  //this bit determines which loot they get
+                        int lege = ran.nextInt(LEGE_AMOUNT);//first a random rarity, then a random display 
+                        int openedLoot = ran.nextInt(TOTAL_CHANCE);//from that rarity
                         boolean openLoot = true;
 
                         boolean empty = false;
@@ -265,15 +275,15 @@ public class twentyFourtyEight
                                 lootMessage = ("LEGENDARY!!!\nYou unlocked "+legendary[lege]+"!");
                                 displays[COM_AMOUNT+RAR_AMOUNT+lege] = 1;
                             }
-                            else
+                            else    //if you open a display you already had, i say it was an empty loot box
                             {
                                 empty = true;
                                 lootDisplay(empty);
                                 System.out.println("The loot box was empty!");
                                 System.out.println("+1 unlucky point!");
                                 lootMessage = ("The loot box was empty!\n+1 unlucky point!");
-                                unluckyPoints++;
-                            }
+                                unluckyPoints++;    //unlucky points are just a joke, but if i keep updating
+                            }                       //i could turn them into a currency
                         }
                         else if (openedLoot < RARE)
                         {
@@ -333,7 +343,7 @@ public class twentyFourtyEight
                             openLoot = false;
                         else
                         {
-                            while (openLoot)
+                            while (openLoot)    //all these loops are for the menus
                             {
                                 lootDisplay(empty);
                                 System.out.println(lootMessage);
@@ -345,8 +355,8 @@ public class twentyFourtyEight
 
                         wipePage();
                     }
-                    else if (lootChoice.equals("2"))
-                    {
+                    else if (lootChoice.equals("2"))    //i save everything here to methods that write files
+                    {                                   
                         saveScores(highscore, score, testScore, exp, lvl, highestTile, unluckyPoints);
                         saveLoot(loot, currentDisplay, newDisplay);
                         saveDisplays(displays);
@@ -354,7 +364,7 @@ public class twentyFourtyEight
                     }
                 }
             }
-            else if (input.equals("4"))
+            else if (input.equals("4")) //this is the challenge system, a pretty small feature
             {
                 wipePage();
                 System.out.println("~=~ 2 0 4 8 ~=~");
@@ -401,8 +411,8 @@ public class twentyFourtyEight
                 System.out.println("Enter any key to go back.");
                 scan.nextLine();
             }
-            else if (input.equals("5"))
-            {
+            else if (input.equals("5")) //this is the profile, it basically just prints out all the important
+            {                           //variables so the user can see them all in one place
                 highscore = getScores(0);
                 boolean profileChoosing = true;
                 int expToNextLvl = 500*exp+testScore;
@@ -421,19 +431,19 @@ public class twentyFourtyEight
                     System.out.println("HIGHEST TILE: " + highestTile);
                     System.out.println("UNLUCKY POINTS: "+ unluckyPoints);
                     System.out.println();
-                    System.out.println("1 - CHANGE USERNAME");
+                    System.out.println("1 - CHANGE USERNAME");  //they can also change their username
                     System.out.println("2 - BACK");
                     System.out.println();
                     System.out.println("Enter the corresponding number for each option.");
                     String profileInput = scan.nextLine();
                     if (profileInput.equals("1"))
                     {
-                        System.out.println("Enter new username.");
-                        user = scan.nextLine();
-                        user = user.toUpperCase();
-                        saveUser(user);
-                    }
-                    else if (profileInput.equals("2"))
+                        System.out.println("Enter new username.");  //something i noticed is if they name themselves
+                        user = scan.nextLine();                     //"NEW USER", they get the tutorial again.
+                        user = user.toUpperCase();                  //this is just because i continued using an old feature
+                        saveUser(user);                             //thruoghout new versions
+                    }                                               //not to big of a deal tho, doesn't really make a difference
+                    else if (profileInput.equals("2"))              //so im not going to bother changing it for now
                     {
                         profileChoosing = false;
                     }
@@ -451,8 +461,8 @@ public class twentyFourtyEight
         }
     }
 
-    public static void displaysMenu(String rarity)
-    {
+    public static void displaysMenu(String rarity)  //this the method called in the display feature
+    {                                               //just displays and keeps track of loot
         if (rarity.equals("common"))
         {
             wipePage();
@@ -496,7 +506,7 @@ public class twentyFourtyEight
                 System.out.print(" - Locked");
             System.out.println();
             System.out.print("7 - BRIDGE");
-            if (currentDisplay == 7 && displays[6] == 1)    //findthis
+            if (currentDisplay == 7 && displays[6] == 1)    
                 System.out.print(" - Active");
             else if (displays[6] == 0)
                 System.out.print(" - Locked");
@@ -600,15 +610,15 @@ public class twentyFourtyEight
             System.out.print("4 - WOBBLE");
             if (currentDisplay == 21 && displays[20] == 1)
                 System.out.print(" - Active");
-            else if (displays[11] == 0)
+            else if (displays[21] == 0)
                 System.out.print(" - Locked");
             System.out.println();
         }
     }
 
-    public static void lootDisplay (boolean empty)
-    {
-        if (empty)
+    public static void lootDisplay (boolean empty)  //a small feature for the loot system 
+    {                                               //i made this a method so i didnt have to write out
+        if (empty)                                  //these specific images multiple times
         {
             wipePage();
             System.out.println("~=~ 2 0 4 8 ~=~");
@@ -640,8 +650,8 @@ public class twentyFourtyEight
         }
     }
 
-    public static void play ()
-    {
+    public static void play ()  //this is probably the most complicated part of the code
+    {                           //here is where i made the actual game
         Scanner scan = new Scanner(System.in);
         final int NO_NUMBER = 0;
         boolean valid = false;
@@ -684,9 +694,9 @@ public class twentyFourtyEight
                         lvl++;
                         loot++;
                         boolean lvlUpScreen = true;
-                        while (lvlUpScreen)
-                        {
-                            wipePage();
+                        while (lvlUpScreen) //the only time they can level up is while playing
+                        {                   //which is why the level up screen is in the method meant 
+                            wipePage();     //for the game
                             System.out.println("~=~ 2 0 4 8 ~=~");
                             System.out.println();
                             System.out.println(" ~,   _      ____   _    _   ____   _        _   _   ____    ,~");
@@ -712,7 +722,7 @@ public class twentyFourtyEight
                     boolean chalScreen = true;
                     loot++;
                     newTile = false;
-                    while (chalScreen)
+                    while (chalScreen)  //this is for the challenge feature
                     {
                         System.out.println("You got to the "+highestTile +" tile!");
                         System.out.println("+1 LOOT BOX");
@@ -735,7 +745,7 @@ public class twentyFourtyEight
                 System.out.println("Enter 'back' to leave, or 'reset' to start over.");
                 String input = scan.nextLine();
                 wipePage();
-                if (input.equalsIgnoreCase("back"))
+                if (input.equalsIgnoreCase("back")) //more save stuff
                 {
                     saveScores(highscore, score, testScore, exp, lvl, highestTile, unluckyPoints);
                     saveBoard(grid);
@@ -751,7 +761,7 @@ public class twentyFourtyEight
                             grid[y][x] = 0;
                         }
                     }
-                    addNumber(grid);
+                    addNumber(grid);    //this method just adds either a 2 or 4 to the grid
                     addNumber(grid);
                     score = 0;
                 }
@@ -763,8 +773,8 @@ public class twentyFourtyEight
                         testGrid[y][x] = grid[y][x];
                     }
                 }
-                changeGrid(input, grid);
-                boolean change = false;
+                changeGrid(input, grid);    //this method moves all the numbers according to the user input
+                boolean change = false;     //then updates the grid
                 for (int y = 0; y < grid.length; y++)
                 {
                     for (int x = 0; x < grid.length; x++)
@@ -779,7 +789,7 @@ public class twentyFourtyEight
                 possibleTurn = false;
                 for (int y = 0; y < grid.length; y++)
                 {
-                    for (int x = 0; x < grid.length; x++)
+                    for (int x = 0; x < grid.length; x++)   //this checks to make sure there are still possible moves
                     {
                         if (grid[y][x] == NO_NUMBER)
                             possibleTurn = true;
@@ -851,9 +861,9 @@ public class twentyFourtyEight
         }
     }
 
-    public static void display (int[][] grid)
-    {
-        Scanner scan = new Scanner(System.in);
+    public static void display (int[][] grid)   //this is where i display the grid
+    {                                           //(when i say grid and board i mean the same thing 
+        Scanner scan = new Scanner(System.in);  //i dont know why im using both words)
         for (int y = 0; y < grid.length; y++)
         {
             for (int x = 0; x < grid.length; x++)
@@ -870,8 +880,8 @@ public class twentyFourtyEight
                 switch (grid[y][x])
                 {
                     case 0:
-                    System.out.print("    "+chosenDisplay[1]);
-                    break;
+                    System.out.print("    "+chosenDisplay[1]);  //this chosenDisplay array holds the display string
+                    break;                                      //this changes when the user changes their display
                     case 2:
                     System.out.print("  2 "+chosenDisplay[1]);
                     break;
@@ -963,7 +973,7 @@ public class twentyFourtyEight
                 if (y == 1 && x == 3)
                 {
                     System.out.print("     ");
-                    for (int i = 0; i < exp; i++)
+                    for (int i = 0; i < exp; i++) 
                     {
                         System.out.print("= ");
                     }
@@ -993,9 +1003,9 @@ public class twentyFourtyEight
         System.out.print("\f");
     }
 
-    public static int[][] changeGrid (String input, int[][] grid)
-    {
-        final int NO_NUMBER = 0;
+    public static int[][] changeGrid (String input, int[][] grid) //this is called after a move is made
+    {                                                             //it moves the numbers in the chosen direction
+        final int NO_NUMBER = 0;                                  //and changes the numbers if they double
         boolean[][] used = new boolean[4][4];
         if (input.equalsIgnoreCase("W"))
         {
@@ -1152,8 +1162,8 @@ public class twentyFourtyEight
         return grid;
     }
 
-    public static int[][] addNumber(int[][] grid)
-    {
+    public static int[][] addNumber(int[][] grid)   //return either 2 or 4
+    {                                               //if i did this right it should be a 1/10 chance to get a 4
         final int TWO_CHANCE = 9;
         final int TOTAL_CHANCE = 10;
         final int MAX_NUM_ARRAY = 4;
@@ -1190,7 +1200,7 @@ public class twentyFourtyEight
         return grid;
     }
 
-    public static void displayGraphics(int choice)
+    public static void displayGraphics(int choice) //this is where i made all the displays
     {
         switch (choice)
         {
@@ -1219,7 +1229,7 @@ public class twentyFourtyEight
             chosenDisplay[1] = "|";
             break;
             case 7:
-            chosenDisplay[0] = "_----_----_----_----_"; //findthis
+            chosenDisplay[0] = "_----_----_----_----_"; 
             chosenDisplay[1] = "|";
             break;
             case 8:
@@ -1275,12 +1285,18 @@ public class twentyFourtyEight
             chosenDisplay[1] = "| |";
             break;
             case 21:
-            chosenDisplay[0] = "} {-<>-} {-<>-} {-<>-} {-<>-} {";
+            chosenDisplay[0] = "} {-<>-} {-<>-} {-<>-} {-<>-} {";   //making these was the most fun
             chosenDisplay[1] = "{ }";
             break;
         }
     }
-
+                                                
+    //from here on is all of the save file methods and get file methods
+    //again, this is probably really messy but it works
+    //i made sure i saved every important variable
+    //i also realize i could have done this in half the amount of methods i used
+    //but i dont want to screw anything up so im leaving it as is for now
+    
     public static int getScores (int whichScore) //0 = highscore, 1 = score, 2 = testScore, 3 = exp, 4 = lvl
     {
         File f = new File ("score.txt");
@@ -1480,3 +1496,10 @@ public class twentyFourtyEight
         }
     }
 }
+
+//that's it!
+//hopefully you enjoy the game
+//(quick tip)
+//if you wanna cheat and unlock all the displays
+//go to the project folder, open displays.txt, and change the 0s to 1s
+
