@@ -5,7 +5,8 @@ import java.io.*;
 //i learned how to make and use save files for this game
 //i probably did them messily, but this game is much better with saved progress
 //so as long as the save files work, i'm happy.
-//also, heres a tip for the game: try to never go up!
+//also, heres a tip for the game: choose a direction and try to never go that way
+//(for example, try to never go up)
 //if you didnt already figure that out, youll have a much better time playing with that knowledge
 //have fun looking at this spaghetti code
 
